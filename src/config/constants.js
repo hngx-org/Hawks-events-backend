@@ -10,7 +10,7 @@ const constants = {
   JWT_USER_LOGIN_EXPIRATION: '24h',
   EMAIL_USER: process.env.EMAIL_USER,
   EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
-  BASE_URL: `http://localhost/api/v1/${PORT}`,
+  BASE_URL: `http://localhost/api/v1/${process.env.PORT}`,
 
   CLOUDINARY: {
     NAME: process.env.CLOUDINARY_NAME,
