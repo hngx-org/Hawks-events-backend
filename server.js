@@ -1,5 +1,7 @@
 const express = require("express")
 const {PORT} = require('./src/config/constants')
+const errorHandler = require("./src/middlewares/error-handler");
+const notFound = require("./src/middlewares/not-found");
 const app = express()
 
 app.use(cors())
