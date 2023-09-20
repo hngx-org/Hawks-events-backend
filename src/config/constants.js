@@ -1,9 +1,11 @@
 const dotenv = require('dotenv');
 dotenv.config();
+const PORT = process.env.PORT || 5000;
 
 const constants = {
   APP_NAME: 'EVENTS PLANNING APP',
-  PORT: process.env.PORT || 5000,
+  PORT,
+  NODE_ENV: process.env.production,
   DATABASE_URI: process.env.DATABASE_URI,
   MYSQL_URL: process.env.DATABASE_URL,
   JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY,
@@ -25,7 +27,7 @@ const constants = {
   DB_COLLECTION: {
     USER: 'USER',
     EVENT: 'EVENT',
-    GROUP: 'GROUP'
+    GROUP: 'GROUP',
   },
 
   MESSAGES: {
