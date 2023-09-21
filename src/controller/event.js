@@ -1,14 +1,29 @@
-
-const BadRequestError = require("../error/errors");
+const {NotFoundError, ClientError, CustomError } = require("../error/errors");
 const Event = require("../models/events");
+const { MESSAGES } = require('../config/constants')
+
+/// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT 
+
+// HERE IS HOW TO USE THE ERROR 
+
+//return next(CustomError(message,200))  - THIS IS TO CREATE A CUSTOM 
+
+// throw new NotFoundError(MESSAGE) - THIS HOW TO USE THE RIGHT HARDCODED ERROR 
+
 
 // Get all events
 exports.getAllEvents = async (req, res, next) => {
   try {
     const events = await Event.findAll();
-    res.status(200).json(events);
+    
+    // if(!events){
+      // HANDLE SUCH CASES 
+    // }
+    return next(CustomError(MESSAGES.SUCCESSFUL,200))
+    // res.status(200).json(events);
   } catch (err) {
-    res.status(500).json({});
+return next(CustomError(MESSAGES.INTERNAL_SERVER_ERROR,500))
+    // res.status(500).json({});
   }
 };
 
@@ -20,17 +35,19 @@ exports.getEventById = async (req, res, next) => {
     const event = await Event.findByPk(eventId);
 
     if (!event) {
-      return res.status(404).json({});
+      return next(CustomError(MESSAGES.NOT_FOUND,404))
+      // return res.status(404).json({});
     }
-
-    res.status(200).json(event);
+    return next(CustomError(MESSAGES.SUCCESSFUL,200))
+    // res.status(200).json(event);
   } catch (err) {
-    res.status(500).json({});
+    return next(CustomError(MESSAGES.INTERNAL_SERVER_ERROR,500))
+    // res.status(500).json({});
   }
 };
 
 
-exports.updateEvent = async (req, res) => {
+exports.updateEvent = async (req, res,next) => {
   const eventId = req.params.eventId;
   const {
     title,
@@ -47,7 +64,8 @@ exports.updateEvent = async (req, res) => {
   const existingEvent = await Event.findByPk(eventId);
 
   if (!existingEvent) {
-    return res.status(404).json({ error: "Event not found" });
+    return next(CustomError(MESSAGES.NOT_FOUND,404))
+    // return res.status(404).json({ error: "Event not found" });
 
   }
 
@@ -62,13 +80,14 @@ exports.updateEvent = async (req, res) => {
   existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
-  res.status(200).json({ message: "Event updated successfully" });
+  return next("Event updated successfully",200)
+  // res.status(200).json({ message: "Event updated successfully" });
+
 };
 
 //post events
 
 exports.postEvent = async (req, res, next) => {
-  console.log("hello");
   const {
     thumbnail,
     description,
@@ -95,11 +114,14 @@ exports.postEvent = async (req, res, next) => {
       location,
     });
     if (!eventItem) {
-      throw new BadRequestError("Invalid event data");
+      return next(CustomError("Invalid event data",400))
+      // throw new BadRequestError("Invalid event data");
     }
-    res.status(201).json({ statusCode: 201, message: "event created" });
+    return next(CustomError(MESSAGES.CREATED,201))
+    // res.status(201).json({ statusCode: 201, message: "event created" });
   } catch (err) {
-    next(err);
+    return next(CustomError(MESSAGES.INTERNAL_SERVER_ERROR,500))
+    // next(err);
   }
 
 };

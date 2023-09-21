@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const eventController = require('../controller/event');
+const protect = require('../middlewares/protect')
+
+
+// use case 
+// router.get("/", protect, eventController.createEvent) => ALL ROUTES HERE SHOULD HAVE THIS!
 
 // Define routes and link them to controller functions
-router.get('/', eventController.getAllEvents);
+router.get('/', protect, eventController.getAllEvents);
 
 router.get('/:eventId', eventController.getEventById);
 // PUT /api/events/:eventId - Update event details
