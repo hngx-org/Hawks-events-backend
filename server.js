@@ -3,7 +3,7 @@ const { PORT } = require("./src/config/constants");
 const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
-const { User } = require("./src/models/index");
+const { User, Group } = require("./src/models/index");
 
 const app = express();
 
@@ -13,9 +13,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //bring in the routes
+app.get("/api/groups", async (req, res) => {
+  try {
+    const group = await Group.findAll();
+    res.send(group);
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+app.get("/api/groups/:groupid", async (req, res) => {
+  try {
+    const group = await Group.findOne({
+      where: {
+        id: req.params.groupid,
+      },
+    });
+    res.send(group);
+  } catch (err) {
+    res.send(err.message);
+  }
+});
 
-app.use(errorHandler);
-app.use(notFound);
+// app.use(errorHandler);
+// app.use(notFound);
 
 const server = app.listen(PORT, () => {
   console.log(`App started at port: ${PORT}`);
