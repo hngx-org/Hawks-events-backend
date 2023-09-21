@@ -1,5 +1,6 @@
 const BadRequestError = require("../error/errors");
 const Event = require("../models/events");
+const constants = require("../config/constants.js")
 
 // Get all events
 exports.getAllEvents = async (req, res, next) => {
@@ -59,7 +60,7 @@ exports.updateEvent = async (req, res) => {
   existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
-  res.status(200).json({ message: "Event updated successfully" });
+  res.status(200).json({ message:constants.MESSAGE.EVENT_UPDATED });
 };
 
 //post events
