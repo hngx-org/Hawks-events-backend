@@ -23,7 +23,7 @@ const Comment = Sequelize.define('Comment', {
       defaultValue: 0,
     },
     image: {
-        type: DataTypes.STRING, 
+        type: DataTypes.BLOB, 
     },
   });
   
