@@ -1,8 +1,9 @@
 const { DataTypes } = require("sequelize");
-const Sequelize = require('../../db/database')
+const Sequelize = require("../../db/database");
 
-let user = Sequelize.define("hng-hawks", {
-  Uuid: {
+let user = Sequelize.define("Users", {
+  googleId: {
+    primaryKey: true,
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
   },
@@ -20,6 +21,13 @@ let user = Sequelize.define("hng-hawks", {
       notEmpty: true,
     },
   },
+  avatar: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
 });
 
 Sequelize.sync()
@@ -29,5 +37,5 @@ Sequelize.sync()
   .catch((error) => {
     console.error("Unable to create table : ", error);
   });
-  
+
 module.exports = user;

@@ -1,4 +1,5 @@
 const express = require("express");
+
 const { PORT } = require("./src/config/constants");
 const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
@@ -7,6 +8,8 @@ const session = require("express-session");
 const passport = require("./src/authentication/passport");
 const group = require("./src/routes/group");
 const events = require("./src/routes/event");
+
+const comment = require('./src/routes/comments')
 
 const app = express();
 
@@ -34,6 +37,15 @@ app.use("/api/users", user);
 app.use("/api/events", events);
 app.use("/api/group", group);
 app.use("/api/auth", auth);
+
+//bring in the routes
+const user = require("./src/routes/user");
+const auth = require("./src/routes/auth");
+app.use("/api/users", user);
+app.use("/api/events", events);
+app.use("/api/group", group);
+app.use("/api/auth", auth);
+app.use('/api/comment', comment)
 
 app.use(errorHandler);
 app.use(notFound);
