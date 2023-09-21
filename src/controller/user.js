@@ -1,3 +1,4 @@
+
 const userModel = require('../models/user');
 const constants = require('../config/constants');
 const { CustomError } = require('../error/errors');
@@ -36,6 +37,12 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {};
+
+
+const login = async (req, res) => {
+  try {
+  } catch (error) {}
+};
 
 const profile = async (req, res) => {
   try {
