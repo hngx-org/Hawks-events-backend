@@ -1,19 +1,14 @@
 const { DataTypes } = require("sequelize");
-const Sequelize = require('../../db/database')
+const Sequelize = require("../../db/database");
 
-let user = Sequelize.define("hng-hawks", {
-  Uuid: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-  },
-  name: {
+let Group = Sequelize.define("Groups", {
+  id: {
+    primaryKey: true,
     type: DataTypes.STRING,
+    // defaultValue: DataTypes.UUIDV4,
     allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
   },
-  email: {
+  title: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
@@ -24,10 +19,10 @@ let user = Sequelize.define("hng-hawks", {
 
 Sequelize.sync()
   .then(() => {
-    console.log("User table created successfully!");
+    console.log("Groups table created successfully!");
   })
   .catch((error) => {
     console.error("Unable to create table : ", error);
   });
-  
-module.exports = user;
+
+module.exports = Group;

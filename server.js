@@ -3,7 +3,7 @@ const { PORT } = require("./src/config/constants");
 const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
-const group = require("./src/routes/group");
+const { User } = require("./src/models/index");
 
 const app = express();
 
@@ -13,9 +13,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //bring in the routes
-const user = require("./src/routes/user");
-app.use("/api/users", user);
-app.use("/api/groups", group);
 
 app.use(errorHandler);
 app.use(notFound);
