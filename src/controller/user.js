@@ -1,52 +1,43 @@
-const userModel = require("../models/user");
-const constants = require("../config/constants");
-const { CustomError } = require("../error/errors");
+
+const userModel = require('../models/user');
+const constants = require('../config/constants');
+const { CustomError } = require('../error/errors');
+const Sequelize = require('../../db/database');
+const user = require('../models/user');
 const alloha = async (req, res, next) => {
   // res.status(500).json({ message: constants.MESSAGES.USER_CREATED });
-  return next(CustomError("test", 429)); //use case
+  return next(CustomError('test', 429)); //use case
 };
 
-const register = async (req, res, next) => {
-  const requestBody = req.body || {};
-  const userData = {
-    name: requestBody.name || null,
-    email: requestBody.email || null,
-    avatar: requestBody.avatar || null,
-  };
-
-  const requiredFields = ["email", "name", "avatar"];
-
-  for (const field of requiredFields) {
-    if (!userData[field]) {
-      res.status(400).json({ error: `Missing ${field}` });
-      return;
-    }
-  }
-  let User;
-  let created;
-
+const register = async (req, res) => {
   try {
-    userModel
-      .findOrCreate({
-        where: { email: userData.email },
-        defaults: {
-          name: userData.name,
-          email: userData.email,
-          avatar: userData.avatar,
-        },
-      })
-      .then((data) => {
-        res.status(201).json({ statusCode: 201, message: "user created" });
-      })
-      .catch((error) => {
-        console.log("error");
-        console.log(error);
-        throw new BadRequestError("Invalid user data");
-      });
+    const { email, name } = req.body;
+
+    // CHECK WHETHER THE USER EXIST
+
+    const existingUser = await user.findOne({ where: { email } });
+    // IF USER ALREADY EXIST, THROW AN ERROR
+
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ error: 'User with the same name or email already exists.' });
+    }
+
+    // Create a new user in the database
+    const newUser = await user.create({
+      email,
+      name,
+    });
+
+    res.status(201).json(newUser);
   } catch (error) {
-    next(err);
+    res.status(500).json({ error: 'Failed to register user' });
   }
 };
+
+const login = async (req, res) => {};
+
 
 const login = async (req, res) => {
   try {
