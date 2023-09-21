@@ -135,6 +135,52 @@ class NetworkAuthenticationRequiredError extends CustomAPIErrorHandler {
     super(message, statusCode, ReasonPhrases[statusCode]);
   }
 }
+function CustomError(message, statusCode) {
+  if (statusCode >= 100 && statusCode < 200) {
+    return new InformationalError(message, statusCode);
+  } else if (statusCode >= 200 && statusCode < 300) {
+    return new SuccessError(message, statusCode);
+  } else if (statusCode >= 300 && statusCode < 400) {
+    return new RedirectionError(message, statusCode);
+  } else if (statusCode >= 400 && statusCode < 500) {
+    if (statusCode === 400) {
+      return new ClientError(message, statusCode);
+    } else if (statusCode === 401) {
+      return new UnauthorizedError(message, statusCode);
+    } else if (statusCode === 402) {
+      return new PaymentRequiredError(message, statusCode);
+    } else if (statusCode === 404) {
+      return new NotFoundError(message, statusCode);
+    }   else if (statusCode === 408) {
+      return new TimeoutError(message, statusCode);
+    }  else if (statusCode === 415) {
+      return new UnsupportedMediaTypeError(message, statusCode);
+    } else if (statusCode === 429) {
+      return new TooManyRequestsError(message, statusCode);
+    }else {
+      return new ClientError(message, statusCode);
+    }
+  } else if (statusCode >= 500) {
+    if (statusCode === 500) {
+      return new InternalServerError(message, statusCode);
+    }  else if (statusCode === 502) {
+      return new BadGatewayError(message, statusCode);
+    } else if (statusCode === 503) {
+      return new ServiceUnavailableError(message, statusCode);
+    }   else if (statusCode === 507) {
+      return new InsufficientStorageError(message, statusCode);
+    } else if (statusCode === 510) {
+      return new NotExtendedError(message, statusCode);
+    } else if (statusCode === 511) {
+      return new NetworkAuthenticationRequiredError(message, statusCode);
+    } else {
+      return new ServerError(message, statusCode);
+    }
+  } else {
+    return new CustomAPIErrorHandler(message, statusCode);
+  }
+}
+
 
 /**
  * Examples
@@ -143,6 +189,7 @@ class NetworkAuthenticationRequiredError extends CustomAPIErrorHandler {
  */
 
 module.exports = {
+  CustomError,
   CustomAPIErrorHandler,
   InformationalError,
   SuccessError,

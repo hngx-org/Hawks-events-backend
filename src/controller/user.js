@@ -1,15 +1,15 @@
 const userModel = require('../models/user')
 const constants = require('../config/constants')
-const ClassError = require('../error/errors')
-const alloha = async (req,res) => {
-        // res.status(200).json({message:"It's still day one!"}
-        // throw new ClassError.AcceptedError("It's still day one")
-        // throw new ClassError.CreatedError(constants.MESSAGESS.USER_CREATED)` Using the pre defined message`s
-        
+const {CustomError} = require('../error/errors')
+const alloha = async (req, res,next) => {
+    // res.status(500).json({ message: constants.MESSAGES.USER_CREATED });
+    return next(CustomError('Working',429))
 }
+
 
 const register = async (req,res) => {
     try {
+
         
     } catch (error) {
         throw new ClassError.ServerError('Internal Server Error')
