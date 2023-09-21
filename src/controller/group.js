@@ -6,7 +6,8 @@ class GroupController {
    createGroup = async(req, res) => {
       try {
          const { title } = req.body; 
-         const newGroup = await addGroup(title)
+         const newGroup = await addGroup(title);
+         res.json(newGroup);
       } catch (error) {
          return res.status(500).json({
             message: "Error creating group",
@@ -16,7 +17,7 @@ class GroupController {
    };
 
    // Update group details route handler
-   updateGroupDetails = async (req, res) => {
+   updateGroup = async (req, res) => {
       try {
          const { groupId } = req.params;
          const { title } = req.body;
