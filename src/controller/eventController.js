@@ -1,51 +1,34 @@
-
 const BadRequestError = require("../error/errors");
 const Event = require("../models/events");
 const {MESSAGES} = require('../config/constants')
+const constants = require("../config/constants.js")
 
-exports.getEventDyId = async (req, res) => {
-  // Retrieve the event by its ID
-  const eventId = req.params.id;
-
+// Get all events
+exports.getAllEvents = async (req, res, next) => {
   try {
-    const event = await Event.findOne({
-      where: {
-        id: eventId,
-      },
-    });
-    if (!event) {
-      res.status(404).json({ error: "Event not Found" });
-    }
-    // Send the event as the response
-    res.status(200).json(event);
-  } catch (error) {
-    // Handle any errors that occur during the process
-    console.error("Error retrieving event by ID:", error);
-    res.status(500).json({ error: "Internal server error" });
+    const events = await Event.findAll();
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(500).json({});
   }
 };
 
-exports.getEventDyId = async(req,res) =>{
-    // Retrieve the event by its ID
-    const eventId = req.params.id;
+// Get event details by eventId
+exports.getEventById = async (req, res, next) => {
+  const eventId = req.params.eventId;
 
-    try {
-        const event =await Event.findOne({
-            where: {
-                id:eventId
-            }
-        });
-        if (!event){
-            res.status(404).json({error: "Event not Found"});
-        }
-         // Send the event as the response
-        res.status(200).json(event);
-    } catch (error) {
-        // Handle any errors that occur during the process
-    console.error('Error retrieving event by ID:', error);
-    res.status(500).json({ error: 'Internal server error' });   
+  try {
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({});
     }
-}
+
+    res.status(200).json(event);
+  } catch (err) {
+    res.status(500).json({});
+  }
+};
 
 exports.updateEvent = async (req, res) => {
   const eventId = req.params.eventId;
@@ -65,7 +48,6 @@ exports.updateEvent = async (req, res) => {
 
   if (!existingEvent) {
     return res.status(404).json({ error: "Event not found" });
-
   }
 
   // Update event details using Sequelize
@@ -79,7 +61,7 @@ exports.updateEvent = async (req, res) => {
   existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
-  res.status(200).json({ message: "Event updated successfully" });
+  res.status(200).json({ message:constants.MESSAGE.EVENT_UPDATED });
 };
 
 //post events
@@ -120,5 +102,19 @@ exports.postEvent = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
 
+exports.deleteEvent = async (req, res) => {
+  const eventId = req.params.eventId;
+
+  // Check if the event exists
+  const existingEvent = await Event.findByPk(eventId);
+
+  if (!existingEvent) {
+    return res.status(404).json({ error: "Event not found" });
+  }
+
+  // Delete event using Sequelize
+  await existingEvent.destroy();
+  res.status(200).json({ message: "Event deleted successfully" });
 };
