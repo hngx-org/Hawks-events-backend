@@ -62,4 +62,3 @@ const profile = async (req, res, next) => {
 module.exports = {
   register,
   profile
-};

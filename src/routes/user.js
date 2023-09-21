@@ -10,5 +10,5 @@ router.post('/register', register)
 router.get('/profile', protect , profile)
 
 
-
 module.exports = router 
+
