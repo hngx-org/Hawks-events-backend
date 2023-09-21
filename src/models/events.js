@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const Sequelize = require('../../db/database')
 
+ 
 const Event = Sequelize.define('Event', {
   id: {
     primaryKey: true,
