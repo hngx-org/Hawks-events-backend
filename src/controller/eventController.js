@@ -1,3 +1,4 @@
+const constants = require("../config/constants");
 const BadRequestError = require("../error/errors");
 const Event = require("../models/events");
 
@@ -19,12 +20,12 @@ exports.getEventById = async (req, res, next) => {
     const event = await Event.findByPk(eventId);
 
     if (!event) {
-      return res.status(404).json({});
+      return res.status(404).json({ error: constants.MESSAGE.EVENT_NOT_FOUND });
     }
 
     res.status(200).json(event);
   } catch (err) {
-    res.status(500).json({});
+    res.status(500).json({ error: constants.MESSAGE.EVENT_LIST });
   }
 };
 
