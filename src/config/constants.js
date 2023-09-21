@@ -58,6 +58,10 @@ const constants = {
     PASSWORD_RESET_EMAIL_SENT:
       "The reset password link has been sent to your email address",
     PASSWORD_RESET_SUCCESS: "Password reset successful",
+    UNSUPPORTED_MEDIA_TYPE:	"Unsupported Media Type",
+    BAD_REQUEST: 	"Bad Request",
+    FORBIDDEN:	"Forbidden",
+    UNPROCESSABLE_ENTITY:	"Unprocessable Entity",
   },
 };
 
