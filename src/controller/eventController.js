@@ -1,6 +1,7 @@
 
 const BadRequestError = require("../error/errors");
 const Event = require("../models/events");
+const {MESSAGES} = require('../config/constants')
 
 exports.getEventDyId = async (req, res) => {
   // Retrieve the event by its ID
@@ -84,7 +85,8 @@ exports.updateEvent = async (req, res) => {
 //post events
 
 exports.postEvent = async (req, res, next) => {
-  console.log("hello");
+  
+  let eventItem;
   const {
     thumbnail,
     description,
@@ -96,8 +98,7 @@ exports.postEvent = async (req, res, next) => {
     start_time,
     end_time,
   } = req.body;
-  let eventItem;
-  console.log(description, location, title, creator_id, start_date, end_date);
+ 
   try {
     eventItem = await Event.create({
       thumbnail,
@@ -110,10 +111,12 @@ exports.postEvent = async (req, res, next) => {
       end_time,
       location,
     });
+
+
     if (!eventItem) {
-      throw new BadRequestError("Invalid event data");
+      throw new BadRequestError(MESSAGES.INVALID_CREDENTIALS);
     }
-    res.status(201).json({ statusCode: 201, message: "event created" });
+    res.status(201).json({ statusCode: 201, message: MESSAGES.EVENT_CREATED });
   } catch (err) {
     next(err);
   }
