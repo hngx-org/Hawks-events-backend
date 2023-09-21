@@ -1,16 +1,18 @@
 const dotenv = require("dotenv");
-const path = require('path')
-dotenv.config({path:path.resolve(__dirname, "../../config.env")});
+const path = require("path");
+dotenv.config({ path: path.resolve(__dirname, "../../config.env") });
 
 const constants = {
   MYSQL_USER: process.env.MYSQL_USER,
   MYSQL_SERVER: process.env.MYSQL_SERVER,
   MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
-  MYSQL_DIALECT:process.env.MYSQL_DIALECT,
+  MYSQL_DIALECT: process.env.MYSQL_DIALECT,
   MYSQL_DB: process.env.MYSQL_DB,
   APP_NAME: "EVENTS PLANNING APP",
   PORT: process.env.PORT || 5000,
   BASE_URL: `http://localhost/api/v1/${this.PORT}`,
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
 
   CLOUDINARY: {
     NAME: process.env.CLOUDINARY_NAME,
@@ -49,10 +51,11 @@ const constants = {
     NOT_FOUND: "Not found",
     MISSING_FIELDS: "Please fill in the missing fields",
     INVALID_CREDENTIALS: "Invalid credentials",
-    UNSUPPORTED_MEDIA_TYPE:	"Unsupported Media Type",
-    BAD_REQUEST: 	"Bad Request",
-    FORBIDDEN:	"Forbidden",
-    UNPROCESSABLE_ENTITY:	"Unprocessable Entity",
+    UNSUPPORTED_MEDIA_TYPE: "Unsupported Media Type",
+    BAD_REQUEST: "Bad Request",
+    FORBIDDEN: "Forbidden",
+    UNPROCESSABLE_ENTITY: "Unprocessable Entity",
+
   },
 };
 
