@@ -13,10 +13,10 @@ app.use(express.urlencoded({ extended: false }));
 
 //bring in the routes  
 const user = require('./src/routes/user')
-const upload_route = require('./src/routes/upload')
+const upload = require('./src/routes/upload')
 
 app.use('/api/users', user)
-app.use('/api/', upload_route)
+app.use('/api/upload', upload)
 
 
 app.use(errorHandler);
