@@ -1,12 +1,12 @@
 const dotenv = require("dotenv");
-const path = require('path')
-dotenv.config({path:path.resolve(__dirname, "../../config.env")});
+const path = require("path");
+dotenv.config({ path: path.resolve(__dirname, "../../config.env") });
 
 const constants = {
   MYSQL_USER: process.env.MYSQL_USER,
   MYSQL_SERVER: process.env.MYSQL_SERVER,
   MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
-  MYSQL_DIALECT:process.env.MYSQL_DIALECT,
+  MYSQL_DIALECT: process.env.MYSQL_DIALECT,
   MYSQL_DB: process.env.MYSQL_DB,
   APP_NAME: "EVENTS PLANNING APP",
   PORT: process.env.PORT || 5000,
@@ -58,10 +58,13 @@ const constants = {
     PASSWORD_RESET_EMAIL_SENT:
       "The reset password link has been sent to your email address",
     PASSWORD_RESET_SUCCESS: "Password reset successful",
-    UNSUPPORTED_MEDIA_TYPE:	"Unsupported Media Type",
-    BAD_REQUEST: 	"Bad Request",
-    FORBIDDEN:	"Forbidden",
-    UNPROCESSABLE_ENTITY:	"Unprocessable Entity",
+    UNSUPPORTED_MEDIA_TYPE: "Unsupported Media Type",
+    BAD_REQUEST: "Bad Request",
+    FORBIDDEN: "Forbidden",
+    UNPROCESSABLE_ENTITY: "Unprocessable Entity",
+    NO_CONTENT: "No Content",
+    METHOD_NOT_ALLOWED: "Method Not Allowed",
+    LOCKED: "User account is locked",
   },
 };
 
