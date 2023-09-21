@@ -114,7 +114,7 @@ exports.postEvent = async (req, res, next) => {
 
 
     if (!eventItem) {
-      throw new BadRequestError(MESSAGES.INVALID_CREDENTIALS);
+      throw new BadRequestError(MESSAGES.MISSING_FIELDS);
     }
     res.status(201).json({ statusCode: 201, message: MESSAGES.EVENT_CREATED });
   } catch (err) {
