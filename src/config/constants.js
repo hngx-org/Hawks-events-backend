@@ -11,6 +11,8 @@ const constants = {
   APP_NAME: "EVENTS PLANNING APP",
   PORT: process.env.PORT || 5000,
   BASE_URL: `http://localhost/api/v1/${this.PORT}`,
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
 
   CLOUDINARY: {
     NAME: process.env.CLOUDINARY_NAME,
