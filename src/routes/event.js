@@ -12,6 +12,9 @@ router.put('/:eventId', eventController.updateEvent);
 // POST /api/events/ route
 router.post('/', eventController.postEvent)
 
+// DELETE /api/events/:eventId - Deletes an event
+router.delete("/:eventId", eventController.deleteEvent);
+
 
 
 module.exports = router;
