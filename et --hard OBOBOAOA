@@ -1,0 +1,165 @@
+[33mcommit f74a83b83280a8c4367f5cc0e94423c1c1e273c0[m[33m ([m[1;36mHEAD -> [m[1;32mTeam-D[m[33m, [m[1;31morigin/Team-D[m[33m)[m
+Merge: 3ba7940 4171051
+Author: Abdulquddus ibrahim <101833166+Xclusive09@users.noreply.github.com>
+Date:   Thu Sep 21 09:08:19 2023 +0100
+
+    Merge branch 'hngx-org:Team-D' into Team-D
+
+[33mcommit 3ba7940628a863b8e5cf9ac5da5534efe67856bf[m
+Author: Abdulquddus Ibrahim <Ibrahimabdulquddus51@gmail.com>
+Date:   Thu Sep 21 09:08:29 2023 +0100
+
+    get list of event
+
+[33mcommit 41710511ff954213356ca8cd3bec7a9cb6c9b67a[m
+Author: iyanuloluwa-Miracle <iyanudina@gmail.com>
+Date:   Thu Sep 21 08:52:21 2023 +0100
+
+    created get all events inside the controller and fixed getById by eunice and tested all the endpoints
+
+[33mcommit cb0592ed8d738f3660f26ebc965c1fc1913dc79c[m
+Merge: ef79a78 fd236fa
+Author: Dina Iyanuloluwa <88966134+iyanuloluwa-Miracle@users.noreply.github.com>
+Date:   Thu Sep 21 07:40:59 2023 +0100
+
+    Merge pull request #51 from nitoC/Team-D
+    
+    ChineduMbaodoh:Team-D POST-event
+
+[33mcommit fd236fa34eaf95bb0e60e0daf48ce132895d444c[m
+Author: nitoc <daren2track@gmail.com>
+Date:   Thu Sep 21 03:29:29 2023 +0100
+
+    fix: fix event route
+
+[33mcommit 25fc275da3d2fd73eae8fb6b77ea6f509541f60b[m
+Merge: e12d9d5 ef79a78
+Author: nitoc <daren2track@gmail.com>
+Date:   Thu Sep 21 02:53:41 2023 +0100
+
+    feat:add event post route customError.js file
+
+[33mcommit e12d9d5bbea1b405ba8605f69008ee2409435700[m
+Author: nitoc <daren2track@gmail.com>
+Date:   Thu Sep 21 02:48:16 2023 +0100
+
+    feat:add event post route customError.js file
+
+[33mcommit ef79a781f8b0bc236b284b700ba66026395af2df[m
+Merge: 783d8d5 c206682
+Author: Dina Iyanuloluwa <88966134+iyanuloluwa-Miracle@users.noreply.github.com>
+Date:   Thu Sep 21 01:28:12 2023 +0100
+
+    Merge pull request #50 from eunice-alswell/Team-D
+    
+    New Rout added to the event rout
+
+[33mcommit c206682b35123baf444f3911bee99aa3ef2f1581[m
+Merge: bb7b036 85e3166
+Author: Eunice Alswell Gyau <61153871+eunice-alswell@users.noreply.github.com>
+Date:   Thu Sep 21 00:11:48 2023 +0000
+
+    Merge pull request #2 from eunice-alswell/eunice-alswell-patch-2
+    
+    Updated event router
+
+[33mcommit 85e31667f8a14e409cf420c56391ba3acc798e74[m
+Author: Eunice Alswell Gyau <61153871+eunice-alswell@users.noreply.github.com>
+Date:   Thu Sep 21 00:09:48 2023 +0000
+
+    Updated event router
+    
+    I added new rout to the event router in the event.js file inside the router forlder
+
+[33mcommit 783d8d534bdd19cfd0db5de7cc2ea99fe5a1dd39[m
+Merge: 0f9cd3e bb7b036
+Author: Dina Iyanuloluwa <88966134+iyanuloluwa-Miracle@users.noreply.github.com>
+Date:   Thu Sep 21 01:06:33 2023 +0100
+
+    Merge pull request #49 from eunice-alswell/Team-D
+    
+    Team d
+
+[33mcommit 0f9cd3ef3f49cdec2456abee2fd8eff7926c80eb[m
+Author: iyanuloluwa-Miracle <iyanudina@gmail.com>
+Date:   Thu Sep 21 01:05:02 2023 +0100
+
+    made corrections and added the UUID
+
+[33mcommit bb7b0367a6a011b9fdc87005038881a7108c16c0[m
+Merge: 89172e4 63587fa
+Author: Eunice Alswell Gyau <61153871+eunice-alswell@users.noreply.github.com>
+Date:   Wed Sep 20 23:48:36 2023 +0000
+
+    Merge pull request #1 from eunice-alswell/eunice-alswell-patch-1
+    
+    Updated  eventController.js with getEventById function
+
+[33mcommit 63587faf2732cc9638fc4b7552fc5f126c8c1d83[m
+Author: Eunice Alswell Gyau <61153871+eunice-alswell@users.noreply.github.com>
+Date:   Wed Sep 20 23:40:50 2023 +0000
+
+    Updated  eventController.js with getEventById function
+
+[33mcommit 89172e4dd36d791b6098d6b3c18fdcbf69ba1419[m
+Author: iyanuloluwa-Miracle <iyanudina@gmail.com>
+Date:   Wed Sep 20 23:31:46 2023 +0100
+
+    remove the error handling from the code
+
+[33mcommit a1736c1f4347b15312eaa55616069a793b6211c7[m
+Author: iyanuloluwa-Miracle <iyanudina@gmail.com>
+Date:   Wed Sep 20 23:02:32 2023 +0100
+
+    finished the update event endpoint
+
+[33mcommit c6563820f29c056a8461f27c923b58d94caa65f5[m
+Author: iyanuloluwa-Miracle <iyanudina@gmail.com>
+Date:   Wed Sep 20 22:36:04 2023 +0100
+
+    added the event and eventController inside the controller and routes folder
+
+[33mcommit 374a7b6da879648c554ae40a5b26e8d1d2abbad3[m
+Author: iyanuloluwa-Miracle <iyanudina@gmail.com>
+Date:   Wed Sep 20 22:33:08 2023 +0100
+
+    added events.js inside the models folder
+
+[33mcommit 854da8fbd90460983cdfdf7447d829c60436f27f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;31morigin/GROUP_G[m[33m)[m
+Author: thereson <gerardokolie09@gmail.com>
+Date:   Wed Sep 20 12:23:33 2023 -0700
+
+    created group model
+
+[33mcommit 711824479e0c7777303a7811d1f9ccd0d6e1d30b[m[33m ([m[1;31morigin/Team-F[m[33m)[m
+Author: backendbro <ukagha.nzubechukwu@yahoo.com>
+Date:   Wed Sep 20 18:08:18 2023 +0100
+
+    Error fixed
+
+[33mcommit 1ba56912561643e6f5ec544f8eba039816dc7d28[m
+Merge: fb9e22c fda2e78
+Author: Ukagha Promise <85031254+backendbro@users.noreply.github.com>
+Date:   Wed Sep 20 00:08:39 2023 +0100
+
+    Merge pull request #2 from hngx-org/rough-work
+    
+    Boilerplate ready and  tested.
+
+[33mcommit fda2e78eef377064ffab7e0479ba4666361a2d33[m[33m ([m[1;31morigin/rough-work[m[33m)[m
+Author: backendbro <ukagha.nzubechukwu@yahoo.com>
+Date:   Tue Sep 19 23:59:23 2023 +0100
+
+    Working boiler plate
+
+[33mcommit ad41615d26e65b84685962ebcbfe82d53bdb2af1[m
+Author: thereson <gerardokolie09@gmail.com>
+Date:   Tue Sep 19 12:24:40 2023 -0700
+
+    establish commection to the database
+
+[33mcommit fb9e22c7e2dbcf863e3f90461fcac0b6433a03a0[m
+Author: backendbro <ukagha.nzubechukwu@yahoo.com>
+Date:   Tue Sep 19 14:41:38 2023 +0100
+
+    It's just day one!

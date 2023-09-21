@@ -1,6 +1,5 @@
 const BadRequestError = require("../error/errors");
 const Event = require("../models/events");
-const constants = require("../config/constants.js")
 
 // Get all events
 exports.getAllEvents = async (req, res, next) => {
@@ -61,7 +60,7 @@ exports.updateEvent = async (req, res) => {
   existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
-  res.status(200).json({ message:constants.MESSAGE.EVENT_UPDATED });
+  res.status(200).json({ message: "Event updated successfully" });
 };
 
 // Get a list of all events
@@ -73,7 +72,7 @@ exports.getEvents = async (req, res) => {
     res.status(200).json(events);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'An error occurred while fetching events' });
+    res.status(500).json({ error: constants.MESSAGE.EVENT_LIST });
   }
 };
 
