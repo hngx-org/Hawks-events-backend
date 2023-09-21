@@ -1,9 +1,11 @@
 const { DataTypes } = require("sequelize");
+const User = require('../models/user')
+const Event = require('../models/events')
 const Sequelize = require('../../db/database')
 
-const Comment = sequelize.define('Comment', {
+const Comment = Sequelize.define('Comment', {
     id: {
-      type: DataTypes.INTEGER,
+      primaryKey: true,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
@@ -33,11 +35,9 @@ const Comment = sequelize.define('Comment', {
   Event.hasMany(Comment, { foreignKey: 'eventId' });
   
  
-  Sequelize.sync()
-  .then(() => {
+Sequelize.sync().then(() => {
     console.log("Comments created successfully!");
-  })
-  .catch((error) => {
+  }).catch((error) => {
     console.error("Unable to create Comment table : ", error);
   });
   

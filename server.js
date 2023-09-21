@@ -5,6 +5,7 @@ const errorHandler = require('./src/middlewares/error-handler')
 const notFound = require('./src/middlewares/not-found')
 const group = require('./src/routes/group')
 const events = require('./src/routes/event')
+const comment = require('./src/routes/comments')
 
 const app = express();
 
@@ -18,6 +19,7 @@ const user = require('./src/routes/user')
 app.use('/api/users', user)
 app.use('/api/events', events)
 app.use('/api/group', group)
+app.use('/api/comment', comment)
 
 
 app.use(errorHandler);
