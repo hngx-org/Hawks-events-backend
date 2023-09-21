@@ -14,19 +14,19 @@ const { BadGatewayError } = require("../error/errors");
 4) return securl_url 
 */
 const storage = multer.diskStorage({
-  destination: "./uploads/images",
-  filename: (req, file, callback) => {
-    const filename =
-      path.parse(file.originalname).name.replace(/\s/g, "") + uuid();
-    const extension = path.parse(file.originalname).ext;
-    callback(null, `${filename}${extension}`);
-  },
+	destination: "./uploads/images",
+	filename: (req, file, callback) => {
+		const filename =
+			path.parse(file.originalname).name.replace(/\s/g, "") + uuid();
+		const extension = path.parse(file.originalname).ext;
+		callback(null, `${filename}${extension}`);
+	},
 });
 
 const fileFilter = (req, file, callback) => {
-  if (!Boolean(file.mimetype.match(/(jpg|jpeg|png|gif)/)))
-    callback(null, false);
-  callback(null, true);
+	if (!Boolean(file.mimetype.match(/(jpg|jpeg|png|gif)/)))
+		callback(null, false);
+	callback(null, true);
 };
 const limits = { fileSize: 1024 * 1024 };
 
@@ -41,38 +41,37 @@ const uploadImage = multer({ fileFilter, storage, limits });
 // };
 
 const upload = async (req, res) => {
-  try {
-    const responses = [];
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ error: "No files uploaded" });
-    }
+	try {
+		const responses = [];
 
-    if (req.files.length >= 3)
-          return res.status(400).json({ error: "Maximum number of files to uploaded is two" });
-      
-    for (const file of req.files) {
-      const { path, buffer } = file;
-      //   const resizedImageBuffer = await sharp(buffer)
-      //     .resize({ width: 1000, height: 1000 }) // Adjust dimensions as needed
-      //         .toBuffer();
-      const uploadedfile = await uploadSingleFile(path);
-      responses.push(uploadedfile);
-      fs.unlinkSync(path);
-    }
+		if (!req.files || req.files.length === 0) {
+			return res.status(400).json({ error: "No files uploaded" });
+		}
+		
+		if (req.files.length >= 3)
+			return res.status(400).json({ error: "Maximum number of files to uploaded is two" });
 
-    return res.status(201).json({
-      message: constants.MESSAGES.CREATED,
-      statusCode: 201,
-      data: responses,
-    });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
+		for (const file of req.files) {
+			const { path, buffer } = file;
+	
+			const uploadedfile = await uploadSingleFile(path);
+			responses.push(uploadedfile);
+			fs.unlinkSync(path);
+		}
+
+		return res.status(201).json({
+			message: constants.MESSAGES.CREATED,
+			statusCode: 201,
+			data: responses,
+		});
+	} catch (error) {
+		//console.error("Error:", req.body);
+		return res.status(500).json({ error: error.message });
+	}
 };
 
 module.exports = {
-  upload,
-  uploadImage,
-  //   handleNoFilesUploaded,
+	upload,
+	uploadImage,
+	//   handleNoFilesUploaded,
 };
