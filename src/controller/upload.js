@@ -65,8 +65,7 @@ const upload = async (req, res) => {
 			data: responses,
 		});
 	} catch (error) {
-		//console.error("Error:", req.body);
-		return res.status(500).json({ error: error.message });
+		return res.status(500).json({ error: "Internal server error" });
 	}
 };
 
