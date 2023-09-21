@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon server.js",
     "lint:fix": "eslint . --fix",
     "start": "node server.js",
     "start:dev": "nodemon server.js"
@@ -15,6 +15,7 @@
   "devDependencies": {
     "eslint": "^8.49.0",
     "eslint-config-wesbos": "^3.2.3",
+    "nodemon": "^3.0.1",
     "prettier": "^2.7.1",
     "typescript": "^4.8.4"
   },
@@ -24,12 +25,15 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
+    "express-session": "^1.17.3",
+    "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.2",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.1",
     "nodemailer": "^6.9.5",
-    "nodemon": "^3.0.1",
+    "passport": "^0.6.0",
+    "passport-google-oauth": "^2.0.0",
     "sequelize": "^6.11.0",
     "uuidv4": "^6.2.13"
   }

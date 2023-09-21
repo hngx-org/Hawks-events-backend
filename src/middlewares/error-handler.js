@@ -1,11 +1,15 @@
 /* eslint-disable no-unused-vars */
+const { CustomAPIErrorHandler } = require('../error/errors')
 const errorHandler = (err, req, res, next) => {
-    const CustomMessage = {
-      message: err.message || 'Internal Serval Error',
-      statusCode: err.statusCode || 500,
-    };
-    res.status(CustomMessage.statusCode).json({ message: CustomMessage.message });
-  };
-  
-  module.exports = errorHandler;
-  
+  if (err instanceof CustomAPIErrorHandler) {
+    res.status(err.statusCode).json({ msg: err.message })
+  }
+  else {
+    return res.status(500).json({ msg: "Internal Server Error" })
+  }
+
+};
+
+module.exports = errorHandler;
+
+ 
