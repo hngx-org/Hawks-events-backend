@@ -2,7 +2,8 @@ const { DataTypes } = require("sequelize");
 const Sequelize = require("../../db/database");
 
 let user = Sequelize.define("Users", {
-  Uuid: {
+  googleId: {
+    primaryKey: true,
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
   },
@@ -14,6 +15,13 @@ let user = Sequelize.define("Users", {
     },
   },
   email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  avatar: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {

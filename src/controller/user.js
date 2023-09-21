@@ -40,6 +40,7 @@ const register = async (req, res, next) => {
       })
       .catch((error) => {
         console.log("error");
+        console.log(error);
         throw new BadRequestError("Invalid user data");
       });
   } catch (error) {
