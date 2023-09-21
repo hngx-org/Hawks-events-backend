@@ -14,6 +14,6 @@ router.post('/register', register)
 router.post('/login', login)
 router.get('/profile', profile)
 router.put('/profile', updateProfile)
-
+	
 
 module.exports = router 
