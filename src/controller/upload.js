@@ -42,12 +42,14 @@ const uploadImage = multer({ fileFilter, storage, limits });
 
 const upload = async (req, res) => {
   try {
-    console.log(req);
     const responses = [];
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files uploaded" });
     }
 
+    if (req.files.length >= 3)
+          return res.status(400).json({ error: "Maximum number of files to uploaded is two" });
+      
     for (const file of req.files) {
       const { path, buffer } = file;
       //   const resizedImageBuffer = await sharp(buffer)
