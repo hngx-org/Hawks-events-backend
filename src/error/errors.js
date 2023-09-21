@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-const CustomError = require('./customErrors');
+const CustomError = require('./custom-errors');
 
 class UnAuthorizedError extends CustomError {
   constructor(message) {
@@ -29,13 +29,6 @@ class AlreadyExist extends CustomError {
   }
 }
 
-class internalServerError extends CustomError {
-  constructor(message) {
-    super(message);
-    this.statusCode = 500
-  }
-}
-
 module.exports = {
-  UnAuthorizedError, BadRequestError, NotFound, AlreadyExist, internalServerError
+  UnAuthorizedError, BadRequestError, NotFound, AlreadyExist,
 };

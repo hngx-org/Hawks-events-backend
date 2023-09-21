@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const eventController = require('../controller/eventController');
+const eventController = require('../controller/event');
 
 // Define routes and link them to controller functions
 router.get('/', eventController.getAllEvents);

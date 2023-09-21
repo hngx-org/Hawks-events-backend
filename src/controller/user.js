@@ -43,6 +43,5 @@ module.exports = {
     alloha,
     register,
     login, 
-    profile, 
-    updateProfile
+    profile
 }
