@@ -67,6 +67,7 @@ exports.updateEvent = async (req, res) => {
 
   }
 
+
   // Update event details using Sequelize
   existingEvent.title = title;
   existingEvent.description = description;
@@ -79,6 +80,19 @@ exports.updateEvent = async (req, res) => {
 
   await existingEvent.save();
   res.status(200).json({ message: "Event updated successfully" });
+};
+
+// Get a list of all events
+exports.getEvents = async (req, res) => {
+  try {
+    //Fetch all data usind sequelize from the DB
+    const events = await Event.findAll();
+    //Event Response
+    res.status(200).json(events);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'An error occurred while fetching events' });
+  }
 };
 
 //post events
