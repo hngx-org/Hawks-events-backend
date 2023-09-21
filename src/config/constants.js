@@ -62,6 +62,10 @@ const constants = {
     BAD_REQUEST: 	"Bad Request",
     FORBIDDEN:	"Forbidden",
     UNPROCESSABLE_ENTITY:	"Unprocessable Entity",
+    NO_CONTENT: "No Content",
+    METHOD_NOT_ALLOWED: "Method Not Allowed",
+    LOCKED: "User account is locked"
+    
   },
 };
 
