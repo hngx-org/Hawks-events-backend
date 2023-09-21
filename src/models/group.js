@@ -14,6 +14,10 @@ let Group = Sequelize.define("Group", {
       validate: {
          notEmpty: true,
       },
+   },
+   isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false, // Initially, a group is not deleted
    }
 });
 

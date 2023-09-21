@@ -32,7 +32,23 @@ class GroupRepository {
       } catch (error) {
          return error;
       }
-   }
+   };
+
+   deleteGroup = async (groupId) => {
+      try {
+         const group = await Group.findByPk(groupId);
+         if (!group) {
+            return null; // Group not found
+         }
+
+         group.isDeleted = true; // Mark the group as deleted
+         await group.save();
+
+         return group;
+      } catch (error) {
+         return error;
+      }
+   };
 }
 
 module.exports = new GroupRepository;

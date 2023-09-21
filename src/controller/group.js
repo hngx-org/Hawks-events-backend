@@ -1,4 +1,4 @@
-const { addGroup, updateGroup } = require('../repository/group')
+const { addGroup, updateGroup, deleteGroup} = require('../repository/group')
 
 
 class GroupController {
@@ -34,7 +34,29 @@ class GroupController {
             error: error.message,
          });
       }
-   }
+   };
+
+   deleteGroup = async (req, res) => {
+      try {
+         const { groupId } = req.params;
+         const deletedGroup = await deleteGroup(groupId);
+         
+         if (!deletedGroup) {
+            return res.status(404).json({
+               message: "Group not found"
+            });
+         }
+
+         res.json({
+            message: "Group deleted successfully"
+         });
+      } catch (error) {
+         return res.status(500).json({
+            message: "Error deleting group",
+            error: error.message
+         });
+      }
+   };
 }
 
 module.exports = new GroupController;
