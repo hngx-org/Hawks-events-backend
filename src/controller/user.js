@@ -1,8 +1,11 @@
 const userModel = require('../models/user')
-
-const alloha = async (req,res) => {
-        res.status(200).json({message:"It's still day one!"})
+const constants = require('../config/constants')
+const { CustomError } = require('../error/errors')
+const alloha = async (req, res, next) => {
+    // res.status(500).json({ message: constants.MESSAGES.USER_CREATED });
+    return next(CustomError('test', 429)) //use case
 }
+
 
 const register = async (req,res) => {
     try {
@@ -43,6 +46,5 @@ module.exports = {
     alloha,
     register,
     login, 
-    profile, 
-    updateProfile
+    profile
 }
