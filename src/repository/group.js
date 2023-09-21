@@ -10,7 +10,27 @@ class GroupRepository {
          const newGroup = await Group.create({id, title})
          return JSON.parse(JSON.stringify(newGroup))
       } catch (error) {
-         return error
+         return error;
+      }
+   };
+
+   // Update group details by UUID
+   updateGroup = async (groupId, newTitle) => {
+      try {
+         const group = await Group.findOne({
+            where: { id: groupId },
+         });
+
+         if (!group) {
+            throw new Error('Group not found');
+         }
+
+         group.title = newTitle;
+         await group.save();
+
+         return JSON.parse(JSON.stringify(group));
+      } catch (error) {
+         return error;
       }
    }
 }
