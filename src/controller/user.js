@@ -52,7 +52,7 @@ const login = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const existingUser = await user.findOne({ where: { email } });
+    const existingUser = await userModel.findOne({ where: { email } });
 
     if (!existingUser) {
       return res
@@ -65,7 +65,8 @@ const login = async (req, res) => {
       .status(201)
       .json({ statusCode: 201, message: 'Logged In successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to register user' });
+    console.log({ error });
+    res.status(500).json({ error: 'Failed to Login' });
   }
 };
 
