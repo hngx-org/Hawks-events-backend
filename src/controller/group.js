@@ -1,4 +1,5 @@
 const {addGroup} = require('../repository/group')
+const group = require("../models/group")
 
 
 class GroupController {
