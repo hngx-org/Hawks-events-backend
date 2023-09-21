@@ -1,3 +1,5 @@
+const {SEQUELIZE} = require("../src/config/constants")
+
 const sequelize = require("sequelize");
 const {
   MYSQL_SERVER, 
@@ -21,10 +23,10 @@ const Sequelize = new sequelize(
 
 Sequelize.authenticate()
     .then(() => {
-      console.log("Connection has been established successfully.");
+      console.log(SEQUELIZE.CONNECTION_SUCCESSFUL);
     })
     .catch((error) => {
-      console.error("Unable to connect to the database: ", error);
+      console.error(SEQUELIZE.CONNECTION_FAILED, error);
 });
 
 module.exports = Sequelize
