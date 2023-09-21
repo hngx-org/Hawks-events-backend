@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const { uploadSingleFile } = require("../config/cloudinary");
 const constants = require("../config/constants");
+const { BadGatewayError } = require("../error/errors");
 
 /*
 1) storage line 15-23 @wisdom209
@@ -29,13 +30,23 @@ const fileFilter = (req, file, callback) => {
 };
 const limits = { fileSize: 1024 * 1024 };
 
-const uploadImage = multer({ storage: storage, fileFilter, limits });
+const uploadImage = multer({ fileFilter, storage, limits });
+
+// const handleNoFilesUploaded = (req, res, next) => {
+//   try {
+//     next();
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const upload = async (req, res) => {
   try {
-    if (!req.files || req.files.length === 0)
-      return res.status(400).json({ error: "No files uploaded" });
+    console.log(req);
     const responses = [];
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files uploaded" });
+    }
 
     for (const file of req.files) {
       const { path, buffer } = file;
@@ -47,13 +58,11 @@ const upload = async (req, res) => {
       fs.unlinkSync(path);
     }
 
-    return res
-      .status(201)
-      .json({
-        message: constants.MESSAGES.CREATED,
-        statusCode: 201,
-        data: responses,
-      });
+    return res.status(201).json({
+      message: constants.MESSAGES.CREATED,
+      statusCode: 201,
+      data: responses,
+    });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -63,4 +72,5 @@ const upload = async (req, res) => {
 module.exports = {
   upload,
   uploadImage,
+  //   handleNoFilesUploaded,
 };

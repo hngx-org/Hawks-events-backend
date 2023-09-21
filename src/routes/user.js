@@ -1,19 +1,11 @@
-const router = require('express').Router()
-const {
-    alloha,
-    register,
-    login,
-    profile,
-    updateProfile
-} = require('../controller/user')
+const router = require("express").Router();
+const { alloha, register, login, profile } = require("../controller/user");
 
-// test this route to see if your set up is working 
-router.get('/', alloha)
+// test this route to see if your set up is working
+router.get("/", alloha); // LEAVE THIS YOUNG MAN ALONE.
 
-router.post('/register', register)
-router.post('/login', login)
-router.get('/profile', profile)
-router.put('/profile', updateProfile)
-	
+router.post("/register", register);
+router.post("/login", login);
+router.get("/profile", profile);
 
-module.exports = router 
+module.exports = router;
