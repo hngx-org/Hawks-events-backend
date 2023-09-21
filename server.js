@@ -3,7 +3,7 @@ const { PORT } = require("./src/config/constants");
 const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
-const { User, Group } = require("./src/models/index");
+const { User, Group, UserGroup } = require("./src/models/index");
 
 const app = express();
 
@@ -29,6 +29,14 @@ app.get("/api/groups/:groupid", async (req, res) => {
       },
     });
     res.send(group);
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+app.delete("/api/groups/:group/members/:userid", (req, res) => {
+  try {
+    const { groupid, userid } = req.params;
+    res.send(groupid, userid);
   } catch (err) {
     res.send(err.message);
   }
