@@ -24,9 +24,10 @@ const register = async (req, res, next) => {
   if (userExist) {
     return res
       .status(400)
-      .json({ error: 'User with the same name or email already exists.' });
+      .json({ error: 'A registered user with the same name or email already exists.' });
   }
 
+  // Check for missing required fields
 
   for (const field of requiredFields) {
     if (!userData[field]) {
@@ -66,7 +67,7 @@ const register = async (req, res, next) => {
         return next(CustomError(error.message, 500));
       });
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
