@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const Sequelize = require('../../db/database')
 
+
 const Group = Sequelize.define("groups", {
    id: {
       primaryKey: true,
@@ -26,6 +27,14 @@ const Group = Sequelize.define("groups", {
          notEmpty: true
       }
    }
+});
+
+// Define Many-to-Many association between Group and User
+Group.belongsToMany(User, {
+   through: 'UserGroup', // This is a join table that links users and groups
+   foreignKey: 'groupId',
+   otherKey: 'userId',
+   as: 'users', // You can use 'users' to query users in a group
 });
 
 Sequelize.sync()

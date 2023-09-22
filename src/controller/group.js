@@ -1,7 +1,8 @@
 const { addGroup, updateGroup, deleteGroup} = require('../repository/group')
 const {addGroup} = require('../repository/group');
 const { addUserGroup } = require('../repository/user_groups');
-
+const User = require('../models/user');
+const Group = require('../models/group');
 
 class GroupController {
 
@@ -68,7 +69,34 @@ class GroupController {
             error: error.message,
          });
       }
-   }
+   };
+
+   
+   // Retrieve users of a group route handler
+   getUsersOfGroup = async (req, res) => {
+      try {
+      const { groupId } = req.params;
+
+      // Find the group by its ID and include associated users
+      const group = await Group.findByPk(groupId, {
+         include: User,
+      });
+
+      if (!group) {
+         return res.status(404).json({ message: 'Group not found' });
+      }
+
+      // Extract the users from the group object
+      const users = group.Users;
+
+      return res.status(200).json({ users });
+      } catch (error) {
+      return res.status(500).json({
+         message: 'Error retrieving users of the group',
+         error: error.message,
+      });
+      }
+   };
 }
 
 module.exports = new GroupController;
