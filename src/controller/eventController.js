@@ -1,7 +1,8 @@
+const constants = require("../config/constants");
 const BadRequestError = require("../error/errors");
 const Event = require("../models/events");
 const {MESSAGES} = require('../config/constants')
-const constants = require("../config/constants.js")
+
 
 // Get all events
 exports.getAllEvents = async (req, res, next) => {
@@ -21,12 +22,12 @@ exports.getEventById = async (req, res, next) => {
     const event = await Event.findByPk(eventId);
 
     if (!event) {
-      return res.status(404).json({});
+      return res.status(404).json({ error: constants.MESSAGE.EVENT_NOT_FOUND });
     }
 
     res.status(200).json(event);
   } catch (err) {
-    res.status(500).json({});
+    res.status(500).json({ error: constants.MESSAGE.EVENT_LIST });
   }
 };
 
@@ -50,6 +51,7 @@ exports.updateEvent = async (req, res) => {
     return res.status(404).json({ error: "Event not found" });
   }
 
+
   // Update event details using Sequelize
   existingEvent.title = title;
   existingEvent.description = description;
@@ -61,7 +63,20 @@ exports.updateEvent = async (req, res) => {
   existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
-  res.status(200).json({ message:constants.MESSAGE.EVENT_UPDATED });
+  res.status(200).json({ message: "Event updated successfully" });
+};
+
+// Get a list of all events
+exports.getEvents = async (req, res) => {
+  try {
+    //Fetch all data usind sequelize from the DB
+    const events = await Event.findAll();
+    //Event Response
+    res.status(200).json(events);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: constants.MESSAGE.EVENT_LIST });
+  }
 };
 
 //post events

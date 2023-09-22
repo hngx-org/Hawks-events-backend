@@ -38,6 +38,8 @@ const constants = {
     USER_ACTIVITY_GOTTEN: "User activities gotten successfully",
     EVENT_CREATED: "New Event created successfully",
     EVENT_UPDATED: "New Event Updated successfully",
+    EVENT_LIST: "An error occurred while fetching events",
+    EVENT_NOT_FOUND: "Event not found",
     UPLOADED: "Upload Successful",
     CONFIRM_EMAIL: "Please confirm email",
     EMAIL_CONFIRMED: "Your email have been confirmed",
