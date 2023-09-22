@@ -10,9 +10,9 @@ const constants = {
   MYSQL_DB: process.env.MYSQL_DB,
   APP_NAME: "EVENTS PLANNING APP",
   PORT: process.env.PORT || 5000,
-  BASE_URL: `http://localhost/api/v1/${this.PORT}`,
-  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+  JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY,
+  JWT_USER_LOGIN_EXPIRATION: '24h',
+
 
   CLOUDINARY: {
     NAME: process.env.CLOUDINARY_NAME,
@@ -20,6 +20,10 @@ const constants = {
     SECRET_KEY: process.env.CLOUDINARY_SECRET_KEY,
   },
 
+  SEQUELIZE:{
+    CONNECTION_SUCCESSFUL:"Connection has been established successfully.",
+    CONNECTION_FAILED:"Unable to connect to the database: "
+  },
   UPLOAD_PATH: {
     EVENT_IMAGES: "EVENT_IMAGES",
   },
@@ -31,6 +35,7 @@ const constants = {
   },
 
   MESSAGES: {
+    EXPIRED_TOKEN:"User expired token",
     USER_EXIST: "User already exists",
     USER_CREATED: "User created successfully",
     USER_LOGGED: "User logged in successfully",
@@ -53,13 +58,6 @@ const constants = {
     INVALID_CREDENTIALS: "Invalid credentials",
     INVALID_TOKEN: "Invalid token",
     INVALID_PASSWORD: "Invalid password",
-    TOKEN_VERIFIED: "Token verified successfully",
-    OTP_MESSAGE: "Hello, your BBWE verification code is",
-    OTP_SENT: "OTP Sent",
-    PASSWORD_MISMATCH: "Password mismatch detected",
-    PASSWORD_RESET_EMAIL_SENT:
-      "The reset password link has been sent to your email address",
-    PASSWORD_RESET_SUCCESS: "Password reset successful",
     UNSUPPORTED_MEDIA_TYPE: "Unsupported Media Type",
     BAD_REQUEST: "Bad Request",
     FORBIDDEN: "Forbidden",

@@ -14,5 +14,5 @@ const decryptData = async (token, secretKey = JWT_PUBLIC_KEY) => {
 
 module.exports = {
   createJwt, 
-  decryptData,
+  decryptData
 };

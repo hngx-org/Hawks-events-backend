@@ -1,23 +1,30 @@
+
 const userModel = require('../models/user');
 const constants = require('../config/constants');
-const { CustomError } = require('../error/errors');
+const { CustomError } = require("../error/errors");
+const {MESSAGES} = require('../config/constants')
+const {createJwt} = require('../ultis/jwt')
 const alloha = async (req, res, next) => {
   // res.status(500).json({ message: constants.MESSAGES.USER_CREATED });
   return next(CustomError('test', 429)); //use case
 };
 
+
 const register = async (req, res, next) => {
   const requestBody = req.body || {};
   const userData = {
+    id:requestBody.id || null,
     name: requestBody.name || null,
     email: requestBody.email || null,
     avatar: requestBody.avatar || null,
   };
 
+
   const requiredFields = ['email', 'name', 'avatar'];
   const email = userData?.email;
   const existingUser = await userModel.findOne({ where: { email } });
   // IF USER ALREADY EXIST, THROW AN ERROR
+  
 
   if (existingUser) {
     return res
@@ -36,13 +43,15 @@ const register = async (req, res, next) => {
   try {
     userModel
       .findOrCreate({
-        where: { email: userData.email },
+        where: { id:userData.id, email: userData.email },
         defaults: {
+          id:userData.id,
           name: userData.name,
           email: userData.email,
           avatar: userData.avatar,
         },
       })
+
       .then((data) => {
         res.status(201).json({ statusCode: 201, message: 'user created' });
       })
@@ -50,11 +59,19 @@ const register = async (req, res, next) => {
         console.log('error');
         console.log(error);
         throw new BadRequestError('Invalid user data');
+      .then(async (data) => {
+        const token = await createJwt({ id: userData.id, email: userData.email })
+        res.status(201).json({ statusCode: 201, message: MESSAGES.USER_CREATED, data, token });
+      })
+      .catch((error) => {
+        return next(CustomError(error.message, 500))
+
       });
   } catch (error) {
     next(err);
   }
 };
+
 
 const login = async (req, res) => {
   try {
@@ -78,19 +95,22 @@ const login = async (req, res) => {
   }
 };
 
-const profile = async (req, res) => {
-  try {
-  } catch (error) {}
-};
 
-const updateProfile = async (req, res) => {
+
+
+const profile = async (req, res, next) => {
+
   try {
-  } catch (error) {}
+    const user = await userModel.findByPk(req.user.dataValues.id)
+    if(!user){
+      return next(CustomError(MESSAGES.USER_NOT_EXIST, 404))
+    }
+    return res.status(200).json({user})
+  } catch (error) {
+    next(error)
+  }
 };
 
 module.exports = {
-  alloha,
   register,
-  login,
-  profile,
-};
+  profile
