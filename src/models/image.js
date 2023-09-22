@@ -1,8 +1,8 @@
 // const { DataTypes } = require("sequelize");
 // const Sequelize = require("../../db/database");
-// const { User } = require("./index");
+// const { User } = require("./index")
 
-// const Group = Sequelize.define("groups", {
+// const Image = Sequelize.define("groups", {
 //   id: {
 //     primaryKey: true,
 //     type: DataTypes.CHAR,
@@ -29,13 +29,6 @@
 //   },
 // });
 
-// // Define Many-to-Many association between Group and User
-// Group.belongsToMany(User, {
-//   through: "UserGroup", // This is a join table that links users and groups
-//   foreignKey: "groupId",
-//   otherKey: "userId",
-//   as: "users", // You can use 'users' to query users in a group
-// });
 
 // Sequelize.sync()
 //   .then(() => {

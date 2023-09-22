@@ -12,6 +12,9 @@ class GroupRepository {
       } catch (error) {
          return error;
       }
+
+   }
+
    };
 
    // Update group details by UUID
@@ -42,6 +45,7 @@ class GroupRepository {
          return error;
       }
    };
+
 }
 
 module.exports = new GroupRepository;

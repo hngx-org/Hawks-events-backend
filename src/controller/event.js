@@ -1,8 +1,10 @@
+
 const {
   ServerError,
   NotFoundError,
   BadRequestError,
 } = require("../error/errors");
+const { MESSAGES } = require("../config/constants");
 const Event = require("../models/events");
 const { MESSAGES } = require("../config/constants");
 
@@ -25,6 +27,7 @@ exports.getAllEvents = async (req, res, next) => {
     res.status(200).json(events);
   } catch (err) {
     throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+
   }
 };
 
@@ -41,6 +44,7 @@ exports.getEventById = async (req, res, next) => {
 
     res.status(200).json(event);
   } catch (err) {
+
     throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
@@ -63,6 +67,7 @@ exports.updateEvent = async (req, res) => {
 
   if (!existingEvent) {
     return res.status(404).json({ error: MESSAGES.NOT_FOUND });
+
   }
 
   // Update event details using Sequelize
@@ -94,7 +99,7 @@ exports.postEvent = async (req, res, next) => {
     end_time,
   } = req.body;
   let eventItem;
-  console.log(description, location, title, creator_id, start_date, end_date);
+  
   try {
     eventItem = await Event.create({
       thumbnail,
@@ -107,9 +112,11 @@ exports.postEvent = async (req, res, next) => {
       end_time,
       location,
     });
+
     if (!eventItem) {
       throw new BadRequestError("Invalid event data");
     }
+
     res.status(201).json({ statusCode: 201, message: MESSAGES.EVENT_CREATED });
   } catch (err) {
     next(err);

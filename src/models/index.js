@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 
 const sequelize = require("../../db/database");
 
-const { STRING, DATE, UUID, UUIDV4 } = DataTypes;
+const { STRING, DATE, UUID, UUIDV4, ARRAY } = DataTypes;
 const User = sequelize.define(
   "User",
   {
@@ -119,6 +119,10 @@ const Group = sequelize.define(
       type: STRING,
       allowNull: false,
     },
+    image:{
+      type:STRING,
+      allowNull:true
+    }
   },
   {
     timestamps: false,
@@ -138,6 +142,10 @@ const Event = sequelize.define(
     title: {
       type: STRING,
       allowNull: false,
+    },
+    image:{
+      type:STRING,
+      allowNull:true
     },
     description: {
       type: STRING,
@@ -194,6 +202,10 @@ const Comment = sequelize.define(
         key: "id",
       },
     },
+    image:{
+      type:STRING,
+      allowNull:true
+    },
     event_id: {
       type: UUID,
       references: {
@@ -217,19 +229,66 @@ const Image = sequelize.define(
       primaryKey: true,
       defaultValue: UUIDV4,
     },
-    comment_id: {
-      type: UUID,
-    },
     image_url: {
-      type: STRING,
+      type: ARRAY(STRING),
+      defaultValue: []
     },
   },
   {
     timestamps: false,
     tableName: "images",
     modelName: "images",
-  }
-);
+  });
+
+
+//   const Comment_images = sequelize.define("comment_images", {
+//       image_id:{
+//         type: UUID,
+//       primaryKey: true,
+//       defaultValue: UUIDV4,
+//       },
+
+//       event_id:{
+//         type: UUID,
+//         references: {
+//           model: "Events",
+//           key: "id",
+//         },
+//       }
+// })
+
+// const Event_thumbnail = sequelize.define("event_thumbnail", {
+//   image_id:{
+//     type: STRING.BINARY,
+//   primaryKey: true,
+//   defaultValue: UUIDV4,
+//   },
+
+//   event_id:{
+//     type: STRING.BINARY,
+//     references: {
+//       model: "Events",
+//       key: "id",
+//     },
+//   }
+// })
+
+// const Group_thumbnail = sequelize.define("group_thumbnail", {
+//   image_id:{
+//     type: UUID,
+//   primaryKey: true,
+//   defaultValue: UUIDV4,
+//   },
+
+//   event_id:{
+//     type: UUID,
+//     references: {
+//       model: "Events",
+//       key: "id",
+//     },
+//   }
+// })
+
 
 User.belongsToMany(Event, { through: InterestedEvent });
 Event.belongsToMany(User, { through: InterestedEvent });
@@ -245,6 +304,11 @@ Event.belongsTo(User, { foreignKey: "creator" });
 User.hasMany(Comment, { foreignKey: "user_id" });
 Event.hasMany(Comment, { foreignKey: "event_id" });
 Comment.hasMany(Image, { foreignKey: "comment_id" });
+
+//Image.belongsToMany(Comment_images, { through: "id"})
+//Image.belongsToMany(Event_thumbnail, { through: "id"})
+//Image.belongsToMany(Group_thumbnail, { through: "id"})
+
 
 sequelize
   .sync()

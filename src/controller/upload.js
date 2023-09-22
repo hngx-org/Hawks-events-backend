@@ -1,5 +1,4 @@
 const multer = require("multer");
-// const sharp = require("sharp");
 const { v4: uuid } = require("uuid");
 const path = require("path");
 const fs = require("fs");
@@ -8,12 +7,8 @@ const constants = require("../config/constants");
 const { MESSAGES } = require("../config/constants");
 const { ServerError } = require("../error/errors");
 
-/*
-1) storage line 15-23 @wisdom209
-2) filefilter line 25-29 @enniewelt
-3) rewrite the for loop in a fucntion @AjKenz
-4) return securl_url 
-*/
+
+
 const storage = multer.diskStorage({
   destination: "./uploads/images",
   filename: (req, file, callback) => {
@@ -21,29 +16,29 @@ const storage = multer.diskStorage({
       path.parse(file.originalname).name.replace(/\s/g, "") + uuid();
     const extension = path.parse(file.originalname).ext;
     callback(null, `${filename}${extension}`);
-  },
+  }
 });
 
+
+const limits = { fileSize: 1024 * 1024 };
 const fileFilter = (req, file, callback) => {
   if (!Boolean(file.mimetype.match(/(jpg|jpeg|png|gif)/)))
     callback(null, false);
   callback(null, true);
+
 };
-const limits = { fileSize: 1024 * 1024 };
 
-const uploadImage = multer({ fileFilter, storage, limits });
-
-// const handleNoFilesUploaded = (req, res, next) => {
-//   try {
-//     next();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 const upload = async (req, res) => {
   try {
     const responses = [];
+			
+			
+const uploadImage = multer({ fileFilter, storage, limits });
+			const upload = async (req, res) => {
+	try {
+		const responses = [];
+
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files uploaded" });
@@ -72,8 +67,11 @@ const upload = async (req, res) => {
   }
 };
 
+
 module.exports = {
   upload,
   uploadImage,
   //   handleNoFilesUploaded,
+	upload,
+	uploadImage,
 };
