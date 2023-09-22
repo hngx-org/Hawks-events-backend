@@ -1,15 +1,14 @@
 const { DataTypes } = require("sequelize");
 const Sequelize = require('../../db/database')
 
-let Group = Sequelize.define("Group", {
+const Group = Sequelize.define("groups", {
    id: {
       primaryKey: true,
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.CHAR,
       allowNull: false,
    },
    title: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
          notEmpty: true,
@@ -18,6 +17,14 @@ let Group = Sequelize.define("Group", {
    isDeleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false, // Initially, a group is not deleted
+   }, 
+   creator_id: {
+      type: DataTypes.CHAR,
+      defaultValue: DataTypes.CHAR,
+      allowNull: false,
+      validate: {
+         notEmpty: true
+      }
    }
 });
 

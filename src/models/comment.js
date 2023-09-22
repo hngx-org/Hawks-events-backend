@@ -1,9 +1,11 @@
 const { DataTypes } = require("sequelize");
+const User = require('../models/user')
+const Event = require('../models/events')
 const Sequelize = require('../../db/database')
 
-const Comment = sequelize.define('Comment', {
+const Comment = Sequelize.define('Comment', {
     id: {
-      type: DataTypes.INTEGER,
+      primaryKey: true,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
@@ -21,23 +23,21 @@ const Comment = sequelize.define('Comment', {
       defaultValue: 0,
     },
     image: {
-        type: DataTypes.STRING, 
+        type: DataTypes.BLOB, 
     },
   });
   
   // Define the relationships
-  Comment.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE' });
-  User.hasMany(Comment, { foreignKey: 'userId' });
+  // Comment.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE' });
+  // User.hasMany(Comment, { foreignKey: 'userId' });
   
-  Comment.belongsTo(Event, { foreignKey: 'eventId', onDelete: 'CASCADE' });
-  Event.hasMany(Comment, { foreignKey: 'eventId' });
+  // Comment.belongsTo(Event, { foreignKey: 'eventId', onDelete: 'CASCADE' });
+  // Event.hasMany(Comment, { foreignKey: 'eventId' });
   
  
-  Sequelize.sync()
-  .then(() => {
+Sequelize.sync().then(() => {
     console.log("Comments created successfully!");
-  })
-  .catch((error) => {
+  }).catch((error) => {
     console.error("Unable to create Comment table : ", error);
   });
   
