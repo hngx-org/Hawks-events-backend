@@ -25,6 +25,16 @@ class GroupController {
     }
   };
 
+  getGroup = async(req,res) => {
+    try{
+      const group = await Group.findAll()
+      res.send(group)
+
+    }catch(err){
+      res.send(err.message)
+    }
+  };
+
   // Update group details route handler
   updateGroup = async (req, res) => {
     try {
