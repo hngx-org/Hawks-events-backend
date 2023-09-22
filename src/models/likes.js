@@ -1,22 +1,22 @@
 const { DataTypes } = require("sequelize");
 const Sequelize = require('../../db/database'); // Import your Sequelize instance
 const Comment = require('../models/comments'); // Make sure to import your Comment model
-const User = require('../models/users');
+const User = require('../models/user');
 
-const Like = Sequelize.define('Like', {
-    comment_id: {
-      type: DataTypes.TEXT,
-      primaryKey: true,
-      references: {
-        model: Comment,
-        key: 'id',
-      },
-    },
+const Like = Sequelize.define('likes', {
     user_id: {
-      type: DataTypes.TEXT,
+      type: DataTypes.UUID,
       primaryKey: true,
       references: {
         model: User,
+        key: 'id',
+      },
+    },
+    comment_id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      references: {
+        model: Comment,
         key: 'id',
       },
     },

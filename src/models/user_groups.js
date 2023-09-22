@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const Sequelize = require('../../db/database')
 
-const UserGroup = Sequelize.define("user-groups", {
+const UserGroup = Sequelize.define("user_groups", {
    user_id: {
       type: DataTypes.TEXT,
       allowNull: false,

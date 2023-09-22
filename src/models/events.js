@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const Sequelize = require('../../db/database')
 
  
-const Event = Sequelize.define('Event', {
+const Event = Sequelize.define('events', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
