@@ -12,4 +12,3 @@ router.put('api/group/:groupId', protect, updateGroup)
 
 router.delete('api/group/:groupId', protect, deleteGroup)
 module.exports = router;
-module.exports = router;
