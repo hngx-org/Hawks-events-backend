@@ -22,17 +22,9 @@ const group = require('./src/routes/group');
 const events = require('./src/routes/event');
 const comment = require('./src/routes/comments');
 const upload = require('./src/routes/upload');
+const getGroup = require('./src/controller/group');
 
-
-app.get("/api/groups",async(req,res)=>{
-  try{
-    const group = await Group.findAll()
-    res.send(group)
-
-  }catch(err){
-    res.send(err.message)
-  }
-})
+app.use("/api/groups",getGroup)
 
 app.use('/api/users', user);
 app.use('/api/events', events);
