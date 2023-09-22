@@ -24,6 +24,16 @@ const comment = require('./src/routes/comments');
 const upload = require('./src/routes/upload');
 const getGroup = require('./src/controller/group');
 
+
+app.use("/api/groups/:groupid",async(req,res)=>{
+  try{
+    let group =await Group.findOne({where:{id:req.params.groupid}})
+    res.send(group)
+  }catch(err){
+    res.send(err.message)
+  }
+})
+
 app.use("/api/groups",getGroup)
 
 app.use('/api/users', user);
