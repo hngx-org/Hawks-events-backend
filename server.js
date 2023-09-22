@@ -4,7 +4,6 @@ const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
 const session = require("express-session");
-const passport = require("./src/authentication/passport");
 const group = require("./src/routes/group");
 const events = require("./src/routes/event");
 
@@ -22,10 +21,6 @@ app.use(cors());
 // these already do the work of bodyParser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// Authentication Initialization
-app.use(passport.initialize());
-app.use(passport.session());
 
 //bring in the routes
 const user = require("./src/routes/user");
