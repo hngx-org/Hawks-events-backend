@@ -135,6 +135,12 @@ class NetworkAuthenticationRequiredError extends CustomAPIErrorHandler {
     super(message, statusCode, ReasonPhrases[statusCode]);
   }
 }
+
+class BadRequestError extends CustomAPIErrorHandler {
+  constructor(message, statusCode = StatusCode.NetworkAuthenticationRequired) {
+    super(message, statusCode, ReasonPhrases[statusCode]);
+  }
+}
 function CustomError(message, statusCode) {
   if (statusCode >= 100 && statusCode < 200) {
     return new InformationalError(message, statusCode);
@@ -212,4 +218,5 @@ module.exports = {
   ServiceUnavailableError,
   InsufficientStorageError,
   NetworkAuthenticationRequiredError,
+  BadRequestError
 };

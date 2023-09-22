@@ -3,6 +3,9 @@ const { PORT } = require("./src/config/constants");
 const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
+const session = require("express-session");
+const group = require("./src/routes/group");
+const events = require("./src/routes/event");
 
 const app = express();
 const {
