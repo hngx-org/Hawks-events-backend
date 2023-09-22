@@ -13,6 +13,10 @@ const Group = Sequelize.define("groups", {
       validate: {
          notEmpty: true,
       },
+   },
+   isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false, // Initially, a group is not deleted
    }, 
    creator_id: {
       type: DataTypes.CHAR,
