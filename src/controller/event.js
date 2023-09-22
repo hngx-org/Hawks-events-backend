@@ -1,22 +1,21 @@
-const {NotFoundError, ClientError } = require("../error/errors");
+const { NotFoundError, ClientError } = require("../error/errors");
 const Event = require("../models/events");
 
-/// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT 
+/// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT
 
-// HERE IS HOW TO USE THE ERROR 
+// HERE IS HOW TO USE THE ERROR
 
-//return next(CustomError(message,200))  - THIS IS TO CREATE A CUSTOM 
+//return next(CustomError(message,200))  - THIS IS TO CREATE A CUSTOM
 
-// throw new NotFoundError(MESSAGE) - THIS HOW TO USE THE RIGHT HARDCODED ERROR 
-
+// throw new NotFoundError(MESSAGE) - THIS HOW TO USE THE RIGHT HARDCODED ERROR
 
 // Get all events
 exports.getAllEvents = async (req, res, next) => {
   try {
     const events = await Event.findAll();
-    
+
     // if(!events){
-      // HANDLE SUCH CASES 
+    // HANDLE SUCH CASES
     // }
     res.status(200).json(events);
   } catch (err) {
@@ -41,7 +40,6 @@ exports.getEventById = async (req, res, next) => {
   }
 };
 
-
 exports.updateEvent = async (req, res) => {
   const eventId = req.params.eventId;
   const {
@@ -60,7 +58,6 @@ exports.updateEvent = async (req, res) => {
 
   if (!existingEvent) {
     return res.status(404).json({ error: "Event not found" });
-
   }
 
   // Update event details using Sequelize
@@ -112,5 +109,17 @@ exports.postEvent = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
 
+exports.deleteEvent = async (req, res) => {
+  const eventId = req.params.eventId;
+  // Check if the event exists
+  const existingEvent = await Event.findByPk(eventId);
+  if (!eventId) {
+    throw new NotFoundError("Event not found");
+  }
+
+  // Delete event using Sequelize
+  await existingEvent.destroy();
+  res.status(200).json({ message: "Event deleted successfully" });
 };
