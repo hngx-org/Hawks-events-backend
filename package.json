@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "lint:fix": "eslint . --fix",
-    "start": "node server.js",
-    "start:dev": "nodemon server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

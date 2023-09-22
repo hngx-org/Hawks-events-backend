@@ -14,11 +14,11 @@ app.use(express.urlencoded({ extended: false }));
 
 //bring in the routes
 const user = require("./src/routes/user");
-const auth = require("./src/routes/auth");
 const group = require("./src/routes/group");
 const events = require("./src/routes/event");
 const comment = require("./src/routes/comments");
 const upload = require("./src/routes/upload");
+
 
 app.use("/api/users", user);
 app.use("/api/events", events);
