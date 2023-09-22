@@ -92,7 +92,7 @@ exports.postEvent = async (req, res, next) => {
     end_time,
   } = req.body;
   let eventItem;
-  console.log(description, location, title, creator_id, start_date, end_date);
+  
   try {
     eventItem = await Event.create({
       thumbnail,
