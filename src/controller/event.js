@@ -1,11 +1,23 @@
-
-const BadRequestError = require("../error/errors");
+const {NotFoundError, ClientError } = require("../error/errors");
 const Event = require("../models/events");
+
+/// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT 
+
+// HERE IS HOW TO USE THE ERROR 
+
+//return next(CustomError(message,200))  - THIS IS TO CREATE A CUSTOM 
+
+// throw new NotFoundError(MESSAGE) - THIS HOW TO USE THE RIGHT HARDCODED ERROR 
+
 
 // Get all events
 exports.getAllEvents = async (req, res, next) => {
   try {
     const events = await Event.findAll();
+    
+    // if(!events){
+      // HANDLE SUCH CASES 
+    // }
     res.status(200).json(events);
   } catch (err) {
     res.status(500).json({});
@@ -68,7 +80,6 @@ exports.updateEvent = async (req, res) => {
 //post events
 
 exports.postEvent = async (req, res, next) => {
-  console.log("hello");
   const {
     thumbnail,
     description,

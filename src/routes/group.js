@@ -9,5 +9,8 @@ router.put('api/group/:groupId', protect, updateGroup)
 router.post('/:groupId/members/:userId', addUserToGroup);
 router.delete('/:groupId/members/:userId', removeUserFromGroup)
 router.delete('api/group/:groupId', protect, deleteGroup)
+router.get('/api/groups/:groupId/users', getUsersOfGroup);
+
+
 
 module.exports = router;
