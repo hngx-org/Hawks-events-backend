@@ -28,11 +28,11 @@ const Comment = Sequelize.define('Comment', {
   });
   
   // Define the relationships
-  Comment.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE' });
-  User.hasMany(Comment, { foreignKey: 'userId' });
+  // Comment.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE' });
+  // User.hasMany(Comment, { foreignKey: 'userId' });
   
-  Comment.belongsTo(Event, { foreignKey: 'eventId', onDelete: 'CASCADE' });
-  Event.hasMany(Comment, { foreignKey: 'eventId' });
+  // Comment.belongsTo(Event, { foreignKey: 'eventId', onDelete: 'CASCADE' });
+  // Event.hasMany(Comment, { foreignKey: 'eventId' });
   
  
 Sequelize.sync().then(() => {
