@@ -3,6 +3,7 @@ const { PORT } = require("./src/config/constants");
 const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
+const Group = require("./src/models/group");
 
 const app = express();
 
@@ -11,13 +12,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Authentication Initialization
-app.use(passport.initialize());
-app.use(passport.session());
-
 //bring in the routes
-app.use("/api/users", user);
-app.use("/api/group", group);
+// app.use("/api/users", user);
+// app.use("/api/group", group);
+app.get("/api/groups", async (req, res) => {
+  try {
+    const groups = await Group.findAll();
+    res.send(groups);
+  } catch (err) {
+    res.send(err.message);
+  }
+});
 
 app.use(errorHandler);
 app.use(notFound);

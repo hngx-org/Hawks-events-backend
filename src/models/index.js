@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 
-const { sequelize } = require("../../");
+const { sequelize } = require("../../db/database");
 
 const { STRING, DATE, UUID, UUIDV4 } = DataTypes;
 
