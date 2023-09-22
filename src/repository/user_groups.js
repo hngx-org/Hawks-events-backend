@@ -9,6 +9,18 @@ class UserGroupRepository {
          return error
       }
    }
+
+   findMember = async (user_id, group_id) => {
+      try {
+         const isMember = await UserGroup.findOne({
+            where: { user_id, group_id }
+         })
+         return isMember ? true : false
+      } catch (error) {
+         return error
+      }
+   }
+
 }
 
 module.exports = new UserGroupRepository;

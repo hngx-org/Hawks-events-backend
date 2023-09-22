@@ -13,6 +13,7 @@ class GroupRepository {
          return error
       }
    }
+
 }
 
 module.exports = new GroupRepository;
