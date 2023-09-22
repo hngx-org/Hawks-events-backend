@@ -67,6 +67,7 @@ const constants = {
     NO_CONTENT: "No Content",
     METHOD_NOT_ALLOWED: "Method Not Allowed",
     LOCKED: "User account is locked",
+    INTERNAL_SERVER_ERROR: "Internal Server Error"
   },
 };
 
