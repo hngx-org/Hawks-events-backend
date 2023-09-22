@@ -2,18 +2,19 @@ const { CustomError } = require("../error/errors");
 const {MESSAGES} = require('../config/constants')
 const {createJwt} = require('../ultis/jwt')
 const userModel = require('../models/user')
+const { v4: uuidv4 } = require('uuid');
 
 
 const register = async (req, res, next) => {
   const requestBody = req.body || {};
   const userData = {
-    id:requestBody.id || null,
+    id: uuidv4(),
     name: requestBody.name || null,
     email: requestBody.email || null,
     avatar: requestBody.avatar || null,
   };
 
-  const requiredFields = ["id","email", "name", "avatar"];
+  const requiredFields = [ "id", "email", "name", "avatar" ];
 
   for (const field of requiredFields) {
     if (!userData[field]) {
@@ -29,7 +30,7 @@ const register = async (req, res, next) => {
       .findOrCreate({
         where: { id:userData.id, email: userData.email },
         defaults: {
-          id:userData.id,
+          id: userData.id,
           name: userData.name,
           email: userData.email,
           avatar: userData.avatar,
@@ -62,3 +63,4 @@ const profile = async (req, res, next) => {
 module.exports = {
   register,
   profile
+};
