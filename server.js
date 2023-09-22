@@ -20,10 +20,6 @@ const events = require("./src/routes/event");
 const comment = require("./src/routes/comments");
 const upload = require("./src/routes/upload");
 
-const group = require("./src/routes/group");
-const events = require("./src/routes/event");
-const comment = require('./src/routes/comments')
-
 app.use("/api/users", user);
 app.use("/api/events", events);
 app.use("/api/group", group);
