@@ -1,26 +1,30 @@
-const {NotFoundError, ClientError } = require("../error/errors");
+const {
+  ServerError,
+  NotFoundError,
+  BadRequestError,
+} = require("../error/errors");
 const Event = require("../models/events");
+const { MESSAGES } = require("../config/constants");
 
-/// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT 
+/// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT
 
-// HERE IS HOW TO USE THE ERROR 
+// HERE IS HOW TO USE THE ERROR
 
-//return next(CustomError(message,200))  - THIS IS TO CREATE A CUSTOM 
+//return next(CustomError(message,200))  - THIS IS TO CREATE A CUSTOM
 
-// throw new NotFoundError(MESSAGE) - THIS HOW TO USE THE RIGHT HARDCODED ERROR 
-
+// throw new NotFoundError(MESSAGE) - THIS HOW TO USE THE RIGHT HARDCODED ERROR
 
 // Get all events
 exports.getAllEvents = async (req, res, next) => {
   try {
     const events = await Event.findAll();
-    
+
     // if(!events){
-      // HANDLE SUCH CASES 
+    // HANDLE SUCH CASES
     // }
     res.status(200).json(events);
   } catch (err) {
-    res.status(500).json({});
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -37,10 +41,9 @@ exports.getEventById = async (req, res, next) => {
 
     res.status(200).json(event);
   } catch (err) {
-    res.status(500).json({});
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
-
 
 exports.updateEvent = async (req, res) => {
   const eventId = req.params.eventId;
@@ -59,8 +62,7 @@ exports.updateEvent = async (req, res) => {
   const existingEvent = await Event.findByPk(eventId);
 
   if (!existingEvent) {
-    return res.status(404).json({ error: "Event not found" });
-
+    return res.status(404).json({ error: MESSAGES.NOT_FOUND });
   }
 
   // Update event details using Sequelize
@@ -74,7 +76,7 @@ exports.updateEvent = async (req, res) => {
   existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
-  res.status(200).json({ message: "Event updated successfully" });
+  res.status(200).json({ message: MESSAGES.EVENT_UPDATED });
 };
 
 //post events
@@ -108,9 +110,8 @@ exports.postEvent = async (req, res, next) => {
     if (!eventItem) {
       throw new BadRequestError("Invalid event data");
     }
-    res.status(201).json({ statusCode: 201, message: "event created" });
+    res.status(201).json({ statusCode: 201, message: MESSAGES.EVENT_CREATED });
   } catch (err) {
     next(err);
   }
-
 };
