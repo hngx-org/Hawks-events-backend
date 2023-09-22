@@ -3,7 +3,7 @@ const { PORT } = require("./src/config/constants");
 const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
-const {Group} = require("./src/models/index")
+const {UserGroup} = require("./src/models/index")
 
 const app = express();
 const {
@@ -27,7 +27,7 @@ const getGroup = require('./src/controller/group');
 
 app.use("/api/groups/:groupid",async(req,res)=>{
   try{
-    let group =await Group.findOne({where:{id:req.params.groupid}})
+    let group =await UserGroup.findOne({where:{id:req.params.groupid}})
     res.send(group)
   }catch(err){
     res.send(err.message)
