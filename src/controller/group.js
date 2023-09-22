@@ -28,10 +28,10 @@ class GroupController {
          const updatedGroup = await updateGroup(groupId, title);
 
          if (updatedGroup instanceof Error) {
-            throw updatedGroup; // Pass the error to the catch block
+            throw updatedGroup; // Propagate the error
          }
 
-         res.json(updatedGroup);
+         return res.status(200).json({ message: 'Group updated', group: updatedGroup });
       } catch (error) {
          return res.status(500).json({
             message: 'Error updating group',
@@ -40,27 +40,35 @@ class GroupController {
       }
    };
 
+   
    deleteGroup = async (req, res) => {
       try {
          const { groupId } = req.params;
-         const deletedGroup = await deleteGroup(groupId);
-         
-         if (!deletedGroup) {
-            return res.status(404).json({
-               message: "Group not found"
-            });
+
+         // Check if the group exists before attempting to delete
+         const existingGroup = await getGroupById(groupId);
+         if (!existingGroup) {
+            return res.status(404).json({ message: 'Group not found' });
          }
 
-         res.json({
-            message: "Group deleted successfully"
-         });
+         // Check if the user has permission to delete the group (you may implement user authentication and authorization)
+         if (existingGroup.creator_id !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized' });
+         }
+
+         const deletedGroup = await deleteGroup(groupId);
+         if (deletedGroup === 1) {
+            return res.status(200).json({ message: 'Group deleted successfully' });
+         } else {
+            return res.status(500).json({ message: 'Error deleting group' });
+         }
       } catch (error) {
          return res.status(500).json({
-            message: "Error deleting group",
-            error: error.message
+            message: 'Error deleting group',
+            error: error.message,
          });
       }
-   };
+   }
 }
 
 module.exports = new GroupController;

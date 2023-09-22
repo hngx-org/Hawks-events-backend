@@ -15,17 +15,15 @@ class GroupRepository {
    };
 
    // Update group details by UUID
-   updateGroup = async (groupId, newTitle) => {
+   updateGroup = async (groupId, title) => {
       try {
-         const group = await Group.findOne({
-            where: { id: groupId },
-         });
+         const group = await Group.findByPk(groupId);
 
          if (!group) {
             throw new Error('Group not found');
          }
 
-         group.title = newTitle;
+         group.title = title;
          await group.save();
 
          return JSON.parse(JSON.stringify(group));
@@ -36,15 +34,10 @@ class GroupRepository {
 
    deleteGroup = async (groupId) => {
       try {
-         const group = await Group.findByPk(groupId);
-         if (!group) {
-            return null; // Group not found
-         }
-
-         group.isDeleted = true; // Mark the group as deleted
-         await group.save();
-
-         return group;
+         const deletedGroup = await Group.destroy({
+            where: { id: groupId },
+         });
+         return deletedGroup;
       } catch (error) {
          return error;
       }
