@@ -1,5 +1,5 @@
-const cloudinary = require('cloudinary');
-const constants = require('./constants');
+const cloudinary = require("cloudinary");
+const constants = require("./constants");
 
 cloudinary.v2.config({
   cloud_name: constants.CLOUDINARY.NAME,
@@ -9,8 +9,8 @@ cloudinary.v2.config({
 
 const uploadSingleFile = async (
   filePath,
-  section = 'IMAGE',
-  resourceType = 'auto',
+  section = "IMAGE",
+  resourceType = "auto"
 ) => {
   const result = await cloudinary.v2.uploader.upload(filePath, {
     folder: `EVENT/${section}`,
