@@ -1,4 +1,4 @@
-const BadRequestError = require("../error/errors");
+const {internalServerError} = require("../error/errors");
 const Event = require("../models/events");
 const {MESSAGES} = require('../config/constants')
 const constants = require("../config/constants.js")
@@ -95,9 +95,7 @@ exports.postEvent = async (req, res, next) => {
     });
 
 
-    if (!eventItem) {
-      throw new BadRequestError(MESSAGES.MISSING_FIELDS);
-    }
+  
     res.status(201).json({ statusCode: 201, message: MESSAGES.EVENT_CREATED });
   } catch (err) {
     next(err);
@@ -108,13 +106,18 @@ exports.deleteEvent = async (req, res) => {
   const eventId = req.params.eventId;
 
   // Check if the event exists
-  const existingEvent = await Event.findByPk(eventId);
+  try{
 
-  if (!existingEvent) {
-    return res.status(404).json({ error: "Event not found" });
+    const existingEvent = await Event.findByPk(eventId);
+  
+    if (!existingEvent) {
+      return res.status(404).json({ error: MESSAGES.NOT_FOUND });
+    }
+  
+    // Delete event using Sequelize
+    await existingEvent.destroy();
+    res.status(200).json({ message: MESSAGES.DELETED });
+  }catch(err){
+    throw new internalServerError(MESSAGES.SERVER_ERROR)
   }
-
-  // Delete event using Sequelize
-  await existingEvent.destroy();
-  res.status(200).json({ message: "Event deleted successfully" });
 };

@@ -34,6 +34,7 @@ const constants = {
     USER_LOGGED: "User logged in successfully",
     USER_LOGGED_OUT: "User logged out in successfully",
     USER_UPDATED: "User updated successfully",
+    SERVER_ERROR: "internal server error",
     USER_NOT_EXIST: "User does not exist",
     USER_ACTIVITY_GOTTEN: "User activities gotten successfully",
     EVENT_CREATED: "New Event created successfully",
