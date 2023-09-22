@@ -3,7 +3,7 @@ const User = require('../models/user');
 const Event = require('../models/events')
 const Sequelize = require('../../db/database')
 
-const Comment = Sequelize.define('Comment', {
+const Comment = Sequelize.define('comments', {
     id: {
       primaryKey: true,
       type: DataTypes.UUID,
@@ -14,20 +14,20 @@ const Comment = Sequelize.define('Comment', {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    user_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: User,
-        key: 'id',
-      },
-      onDelete: 'CASCADE',
-    },
     event_id: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: Event,
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
+    },
+    user_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: User,
         key: 'id',
       },
       onDelete: 'CASCADE',

@@ -23,7 +23,7 @@ const upload = require("./src/routes/upload");
 app.use("/api/users", user);
 app.use("/api/events", events);
 app.use("/api/group", group);
-app.use('/api/comment', comment);
+app.use('/api/comments', comment);
 app.use("/api/upload", upload);
 
 
