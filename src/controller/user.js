@@ -15,7 +15,15 @@ const register = async (req, res, next) => {
   };
 
   const requiredFields = ['email', 'name', 'avatar'];
+  const email = userData?.email;
+  const existingUser = await userModel.findOne({ where: { email } });
+  // IF USER ALREADY EXIST, THROW AN ERROR
 
+  if (existingUser) {
+    return res
+      .status(400)
+      .json({ error: 'User with the same name or email already exists.' });
+  }
   for (const field of requiredFields) {
     if (!userData[field]) {
       res.status(400).json({ error: `Missing ${field}` });
