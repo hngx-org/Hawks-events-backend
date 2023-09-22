@@ -6,8 +6,8 @@ const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
 const session = require("express-session");
 const passport = require("./src/authentication/passport");
-const group = require("./src/routes/group");
-const events = require("./src/routes/event");
+// const group = require("./src/routes/group");
+// const events = require("./src/routes/event");
 
 const app = express();
 
@@ -34,14 +34,35 @@ const auth = require("./src/routes/auth");
 const group = require("./src/routes/group");
 const events = require("./src/routes/event");
 const comment = require("./src/routes/comments");
-const upload = require("./src/routes/upload");
-
+const { Group } = require("./src/models/index");
+// const upload = require("./src/routes/upload");
+app.get("/api/groups/:groupid", async (req, res) => {
+  try {
+    const group = await Group.findOne({
+      where: {
+        id: req.params.groupid,
+      },
+    });
+    res.send(group);
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+app.get("/api/groups", async (req, res) => {
+  try {
+    const groups = await Group.findAll();
+    res.send(groups);
+  } catch (err) {
+    res.send(err.message);
+  }
+});
 
 app.use("/api/users", user);
 app.use("/api/events", events);
 app.use("/api/group", group);
-app.use('/api/comment', comment);
-app.use("/api/upload", upload);
+app.use("/api/comment", comment);
+
+// app.use("/api/upload", upload);
 
 app.use(errorHandler);
 app.use(notFound);
