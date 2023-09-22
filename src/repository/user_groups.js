@@ -20,6 +20,17 @@ class UserGroupRepository {
          return error
       }
    }
+      
+   removeAmemberFromGroup = async (user_id, group_id) => {
+      try {
+         const response = await UserGroup.destroy({
+            where: { user_id, group_id } 
+         })
+         return response
+      } catch (error) {
+         return error
+      }
+   }
 
 }
 

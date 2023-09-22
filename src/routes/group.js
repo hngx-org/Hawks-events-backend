@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {createGroup, addUserToGroup} = require('../controller/group')
+const {createGroup, addUserToGroup, removeUserFromGroup} = require('../controller/group')
 
 router.post('/create-group', createGroup)
 router.post('/:groupId/members/:userId', addUserToGroup);
