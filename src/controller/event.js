@@ -1,4 +1,5 @@
-const {NotFoundError, ClientError } = require("../error/errors");
+const { MESSAGES } = require("../config/constants");
+const {NotFoundError, ClientError, ServerError } = require("../error/errors");
 const Event = require("../models/events");
 
 /// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT 
@@ -20,7 +21,7 @@ exports.getAllEvents = async (req, res, next) => {
     // }
     res.status(200).json(events);
   } catch (err) {
-    res.status(500).json({});
+    throw new ServerError(MESSAGES.SERVER_ERROR)
   }
 };
 
@@ -32,12 +33,12 @@ exports.getEventById = async (req, res, next) => {
     const event = await Event.findByPk(eventId);
 
     if (!event) {
-      return res.status(404).json({});
+      return res.status(404).json({message:MESSAGES.NOT_FOUND});
     }
 
     res.status(200).json(event);
   } catch (err) {
-    res.status(500).json({});
+    throw new ServerError(MESSAGES.SERVER_ERROR)
   }
 };
 
@@ -59,7 +60,7 @@ exports.updateEvent = async (req, res) => {
   const existingEvent = await Event.findByPk(eventId);
 
   if (!existingEvent) {
-    return res.status(404).json({ error: "Event not found" });
+    return res.status(404).json({ error: MESSAGES.NOT_FOUND });
 
   }
 
@@ -74,7 +75,7 @@ exports.updateEvent = async (req, res) => {
   existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
-  res.status(200).json({ message: "Event updated successfully" });
+  res.status(200).json({ message: MESSAGES.EVENT_UPDATED });
 };
 
 //post events
@@ -105,10 +106,8 @@ exports.postEvent = async (req, res, next) => {
       end_time,
       location,
     });
-    if (!eventItem) {
-      throw new BadRequestError("Invalid event data");
-    }
-    res.status(201).json({ statusCode: 201, message: "event created" });
+    
+    res.status(201).json({ statusCode: 201, message: MESSAGES.EVENT_CREATED });
   } catch (err) {
     next(err);
   }
