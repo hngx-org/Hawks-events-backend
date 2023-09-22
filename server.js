@@ -1,9 +1,13 @@
-const express = require('express');
-const { PORT } = require('./src/config/constants');
-const cors = require('cors');
-const errorHandler = require('./src/middlewares/error-handler');
-const notFound = require('./src/middlewares/not-found');
+const express = require("express");
+const { PORT } = require("./src/config/constants");
+const cors = require("cors");
+const errorHandler = require("./src/middlewares/error-handler");
+const notFound = require("./src/middlewares/not-found");
+
 const app = express();
+const {
+  Group
+} = require('./src/models/index')
 
 app.use(cors());
 // these already do the work of bodyParser
@@ -21,6 +25,7 @@ const upload = require('./src/routes/upload');
 app.use('/api/users', user);
 app.use('/api/events', events);
 app.use('/api/group', group);
+
 app.use('/api/comment', comment);
 app.use('/api/upload', upload);
 
