@@ -5,8 +5,8 @@ const { Op } = require('sequelize');
 
 const likeComment = async(req, res) => {
     const {commentId} = req.params
-    //const userId = req.user.id
-    const { userId } = req.body;
+    const userId = req.user.id
+    //const { userId } = req.body;
 
     const newLike = await Like.create({
         user_id: userId,
