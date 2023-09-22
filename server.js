@@ -3,7 +3,9 @@ const { PORT } = require("./src/config/constants");
 const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
-const Group = require("./src/models/group");
+
+const { Group } = require("./src/models/index");
+const { readBuilderProgram } = require("typescript");
 
 const app = express();
 
@@ -19,6 +21,25 @@ app.get("/api/groups", async (req, res) => {
   try {
     const groups = await Group.findAll();
     res.send(groups);
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+app.get("/api/groups/:groupid", async (req, res) => {
+  try {
+    const group = await Group.findOne({
+      where: {
+        id: req.params.groupid,
+      },
+    });
+    res.send(group);
+  } catch (err) {
+    res.send(err.message);
+  }
+});
+app.post("/api/groups", (req, res) => {
+  try {
+    res.send(group);
   } catch (err) {
     res.send(err.message);
   }
