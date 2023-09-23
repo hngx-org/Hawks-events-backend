@@ -22,6 +22,7 @@ const protect = async (req, res, next) => {
     req.user = await User.findByPk(user.id);
     next();
   } catch (error) {
+    console.log(error);
     throw new UnauthorizedError(MESSAGES.EXPIRED_TOKEN);
   }
 };
