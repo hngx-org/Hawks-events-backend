@@ -44,6 +44,7 @@ const constants = {
     USER_NOT_EXIST: "User does not exist",
     USER_ACTIVITY_GOTTEN: "User activities gotten successfully",
     EVENT_CREATED: "New Event created successfully",
+    EVENT_UPDATED: "Event updated successfully",
     UPLOADED: "Upload Successful",
     CONFIRM_EMAIL: "Please confirm email",
     EMAIL_CONFIRMED: "Your email have been confirmed",
@@ -59,12 +60,14 @@ const constants = {
     INVALID_TOKEN: "Invalid token",
     INVALID_PASSWORD: "Invalid password",
     UNSUPPORTED_MEDIA_TYPE: "Unsupported Media Type",
-    BAD_REQUEST: "Bad Request",
     FORBIDDEN: "Forbidden",
+    SERVER_ERROR: "internal server error",
+    BAD_REQUEST: "Bad Request",
     UNPROCESSABLE_ENTITY: "Unprocessable Entity",
     NO_CONTENT: "No Content",
     METHOD_NOT_ALLOWED: "Method Not Allowed",
     LOCKED: "User account is locked",
+    INTERNAL_SERVER_ERROR: "Internal Server Error"
   },
 };
 
