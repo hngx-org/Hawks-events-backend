@@ -1,6 +1,7 @@
+
 const { MESSAGES } = require("../config/constants");
 const { ServerError } = require("../error/errors");
-const {Event } = require("../models/index");
+const {Event} = require("../models/index");
 
 
 // HERE IS HOW TO USE THE ERROR 
@@ -20,7 +21,7 @@ exports.getAllEvents = async (req, res, next) => {
     // }
     res.status(200).json(events);
   } catch (err) {
-    throw new ServerError(MESSAGES.SERVER_ERROR)
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -37,7 +38,10 @@ exports.getEventById = async (req, res, next) => {
 
     res.status(200).json(event);
   } catch (err) {
-    throw new ServerError(MESSAGES.SERVER_ERROR)
+
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+ 
+
   }
 };
 
@@ -52,7 +56,6 @@ exports.updateEvent = async (req, res) => {
     end_date,
     start_time,
     end_time,
-    thumbnail,
   } = req.body;
 
   // Check if the event exists
@@ -60,7 +63,6 @@ exports.updateEvent = async (req, res) => {
 
   if (!existingEvent) {
     return res.status(404).json({ error: MESSAGES.NOT_FOUND });
-
   }
 
   // Update event details using Sequelize
@@ -71,7 +73,6 @@ exports.updateEvent = async (req, res) => {
   existingEvent.end_date = end_date;
   existingEvent.start_time = start_time;
   existingEvent.end_time = end_time;
-  existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
   res.status(200).json({ message: MESSAGES.EVENT_UPDATED });
@@ -81,24 +82,22 @@ exports.updateEvent = async (req, res) => {
 
 exports.postEvent = async (req, res, next) => {
   const {
-    thumbnail,
+    creator_id,
     description,
     location,
     title,
-    creator_id,
     start_date,
     end_date,
     start_time,
     end_time,
   } = req.body;
   let eventItem;
-  console.log(description, location, title, creator_id, start_date, end_date);
+
   try {
     eventItem = await Event.create({
-      thumbnail,
       description,
-      title,
       creator_id,
+      title,
       start_date,
       end_date,
       start_time,
@@ -111,4 +110,21 @@ exports.postEvent = async (req, res, next) => {
     next(err);
   }
 
+};
+
+//delete event
+exports.deleteEvent = async (req, res, next) => {
+  const eventId = req.params.eventId;
+  try {
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: MESSAGES.NOT_FOUND });
+    }
+
+    await event.destroy();
+    res.status(200).json({ message: MESSAGES.EVENT_DELETED });
+  } catch (err) {
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+  }
 };
