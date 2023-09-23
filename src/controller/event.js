@@ -28,9 +28,13 @@ exports.getAllEvents = async (req, res, next) => {
 // Get event details by eventId
 exports.getEventById = async (req, res, next) => {
   const eventId = req.params.eventId;
-
+console.log(eventId)
   try {
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findOne({
+      where: {
+        id: eventId,
+      },
+    });
 
     if (!event) {
       return res.status(404).json({message:MESSAGES.NOT_FOUND});
@@ -59,7 +63,11 @@ exports.updateEvent = async (req, res) => {
   } = req.body;
 
   // Check if the event exists
-  const existingEvent = await Event.findByPk(eventId);
+  const existingEvent = await Event.findOne({
+    where: {
+      id: eventId,
+    },
+  });
 
   if (!existingEvent) {
     return res.status(404).json({ error: MESSAGES.NOT_FOUND });
@@ -104,7 +112,7 @@ exports.postEvent = async (req, res, next) => {
       end_time,
       location,
     });
-    
+    console.log(creator_id)
     res.status(201).json({ statusCode: 201, message: MESSAGES.EVENT_CREATED });
   } catch (err) {
     next(err);
@@ -116,7 +124,11 @@ exports.postEvent = async (req, res, next) => {
 exports.deleteEvent = async (req, res, next) => {
   const eventId = req.params.eventId;
   try {
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findOne({
+      where: {
+        id: eventId,
+      },
+    });
 
     if (!event) {
       return res.status(404).json({ error: MESSAGES.NOT_FOUND });
