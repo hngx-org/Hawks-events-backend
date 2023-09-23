@@ -56,7 +56,6 @@ exports.updateEvent = async (req, res) => {
     end_date,
     start_time,
     end_time,
-    thumbnail,
   } = req.body;
 
   // Check if the event exists
@@ -74,7 +73,6 @@ exports.updateEvent = async (req, res) => {
   existingEvent.end_date = end_date;
   existingEvent.start_time = start_time;
   existingEvent.end_time = end_time;
-  existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
   res.status(200).json({ message: MESSAGES.EVENT_UPDATED });
