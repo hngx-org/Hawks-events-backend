@@ -17,103 +17,51 @@ Base URL
 The base URL for all API requests is: http://localhost:8080/api/events
 
 ## USER REGISTRATION
-This section provides an understanding of the register and profile functions and their usage in this nodejs application.
-Prerequisites
-Before you begin, make sure you have the following prerequisites in place:
 
-Node.js and npm installed on your system.
-You will use the following to collect users data: name, image and an avarter.
-####Configure user.js with Auth0 and Google strategy using the provided code snippet.
+##### Create USER
+   Endpoint: /users/register
+   Method: POST
+   Description: Creates a new user.
+   Request:
+   Request Body: JSON object with user properties (e.g. name, email and Image).
+   Response:
+   Status Code: 201 Created (if the user is created successfully)
+   Status Code: 400 Bad Request (if the request data is invalid)
+   Response Body: A success message.
 
+Example Request:
 ```javascript
-
-const { ServerError, NotFoundError } = require("../error/errors");
-const { CustomError } = require("../error/errors");
-const { MESSAGES } = require("../config/constants");
-const { createJwt } = require("../ultis/jwt");
-const { User } = require("../models/index");
-
-
-const register = async (req, res, next) => {
-  const requestBody = req.body || {};
-  const userData = {
-    id: requestBody.id || null,
-    name: requestBody.name || null,
-    email: requestBody.email || null,
-    avatar: requestBody.avatar || null,
-  };
-
-  const requiredFields = ["id", "email", "name", "avatar"];
-
-
-
-  for (const field of requiredFields) {
-    if (!userData[field]) {
-      res.status(400).json({ error: `Missing ${field}` });
-      return;
-    }
-  }
-
-  try {
-    User.findOrCreate({
-      where: { id: userData.id, email: userData.email },
-      defaults: {
-        id: userData.id,
-        name: userData.name,
-        email: userData.email,
-        avatar: userData.avatar,
-      },
-    })
-      .then(async (data) => {
-        const token = await createJwt({
-          id: userData.id,
-          email: userData.email,
-        });
-        res.status(201).json({
-          statusCode: 201,
-          message: MESSAGES.USER_CREATED,
-          data,
-          token,
-        });
-      })
-      .catch((error) => {
-        throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
-        return next(CustomError(error.message, 500));
-      });
-  } catch (error) {
-    console.log(error);
-    next(err);
-  }
-};
-
-module.exports = {
-  register
-};
+POST http://localhost:8080/api/users/register
+```
+PayLoad
+```javascript
+{
+     "id":"550e8122-e29b-41d4-a716-446655440000",
+    "name":"John Swan",
+    "email":"JohnSwb@gmail.com",
+    "avatar":"https://lh3.googleusercontent.com/a/ACg8ocLMMaDCAR74N60sNXV16VubfW9xtPniRB4DB06d3nIJEg=s317-c-no"
+}
 ```
 
-#### Profile
-Update the user profile with the information provided in the above code
-
+Example Response:
 ```javascript
-const profile = async (req, res, next) => {
-  try {
-    const user = await userModel.findByPk(req.user.dataValues.id);
-    if (!user) {
-
-      return next(CustomError(MESSAGES.USER_NOT_EXIST, 404));
-
-    }
-    return res.status(200).json({ user });
-  } catch (error) {
-    next(error);
-  }
-};
-
-
-module.exports = {
- profile
-};
+{
+    "statusCode": 201,
+    "message": "User created successfully",
+    "data": [
+        {
+            "id": "550e8122-e29b-41d4-a716-446655440000",
+            "name": "John Swan",
+            "email": "JohnSwb@gmail.com",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLMMaDCAR74N60sNXV16VubfW9xtPniRB4DB06d3nIJEg=s317-c-no"
+        },
+        true
+    ],
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU1MGU4MTIyLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMCIsImVtYWlsIjoiSm9oblN3YkBnbWFpbC5jb20iLCJpYXQiOjE2OTU0NzA4ODAsImV4cCI6MTY5NTU1NzI4MH0.lwfFlyPjViYhbU9aslzy9GPSq2eRlTs2IsDkmb_eq3o"
+}
 ```
+
+ 
 
 
 ## AUTHETICATION
