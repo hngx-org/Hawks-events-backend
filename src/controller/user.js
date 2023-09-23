@@ -1,10 +1,8 @@
 const { ServerError, NotFoundError } = require("../error/errors");
+const { CustomError } = require("../error/errors");
 const { MESSAGES } = require("../config/constants");
 const { createJwt } = require("../ultis/jwt");
-const userModel = require("../models/user");
-
-const { CustomError } = require('../error/errors');
-
+const { User } = require("../models/index");
 
 const register = async (req, res, next) => {
   const requestBody = req.body || {};
@@ -15,18 +13,7 @@ const register = async (req, res, next) => {
     avatar: requestBody.avatar || null,
   };
 
-
-  const requiredFields = ['id', 'email', 'name', 'avatar'];
-
-  const email = userData?.email;
-  const userExist = await userModel.findOne({ where: { email } });
-
-  if (userExist) {
-    return res
-      .status(400)
-      .json({ error: 'User with the same name or email already exists.' });
-  }
-
+  const requiredFields = ["id", "email", "name", "avatar"];
 
   for (const field of requiredFields) {
     if (!userData[field]) {
@@ -34,20 +21,17 @@ const register = async (req, res, next) => {
       return;
     }
   }
-  let User;
-  let created;
 
   try {
-    userModel
-      .findOrCreate({
-        where: { id: userData.id, email: userData.email },
-        defaults: {
-          id: userData.id,
-          name: userData.name,
-          email: userData.email,
-          avatar: userData.avatar,
-        },
-      })
+    User.findOrCreate({
+      where: { id: userData.id, email: userData.email },
+      defaults: {
+        id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        avatar: userData.avatar,
+      },
+    })
       .then(async (data) => {
         const token = await createJwt({
           id: userData.id,
@@ -61,22 +45,20 @@ const register = async (req, res, next) => {
         });
       })
       .catch((error) => {
-
         throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
         return next(CustomError(error.message, 500));
       });
   } catch (error) {
+    console.log(error);
     next(err);
   }
 };
 
 const profile = async (req, res, next) => {
   try {
-    const user = await userModel.findByPk(req.user.dataValues.id);
+    const user = await User.findByPk(req.user.dataValues.id);
     if (!user) {
-
       return next(CustomError(MESSAGES.USER_NOT_EXIST, 404));
-
     }
     return res.status(200).json({ user });
   } catch (error) {
@@ -86,11 +68,5 @@ const profile = async (req, res, next) => {
 
 module.exports = {
   register,
-
   profile,
 };
-
-  profile
-};
-
-

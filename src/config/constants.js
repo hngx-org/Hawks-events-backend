@@ -56,6 +56,7 @@ const constants = {
     UPDATED: "Resource updated successfully",
     DELETED: "Resource deleted successfully",
     NOT_FOUND: "Not found",
+    SERVER_ERROR:"Internal server error",
     MISSING_FIELDS: "Please fill in the missing fields",
     INVALID_CREDENTIALS: "Invalid credentials",
     INVALID_TOKEN: "Invalid token",
