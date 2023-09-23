@@ -1,6 +1,6 @@
 const { MESSAGES } = require("../config/constants");
 const { ServerError } = require("../error/errors");
-const Event = require("../models/index");
+const {Event } = require("../models/index");
 
 
 // HERE IS HOW TO USE THE ERROR 
