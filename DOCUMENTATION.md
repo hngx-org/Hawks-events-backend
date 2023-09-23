@@ -1,4 +1,4 @@
-##Overview
+## Overview
 This repository contains the code for a REST API built using Nodejs, Express, Sequelize, Mysql2. The API is designed to allow its users to signup on an event app, create an event, view events created and also update event created. The code is well-written and easy to understand, so even if you're not an expert in programming, you should be able to navigate it without any problems.
 
 ##TechStack
@@ -7,7 +7,7 @@ Express: Express.js is a popular open-source Node.js framework for building web 
 
 Sequelize: Sequelize is a modern TypeScript and Node.js ORM for MySQL SQL Server, and more. Featuring solid transaction support, relations, eager and lazy loading, read replication and more.
 
-##Features
+## Features
 All the crud operations both users and event functionality
 Proper Error checking
 Input Validation
@@ -28,7 +28,7 @@ The base URL for all API requests is: http://localhost:8080/api/events
    Status Code: 201 Created (if the user is created successfully)
    Status Code: 400 Bad Request (if the request data is invalid)
    Response Body: A success message.
-
+   
 Example Request:
 ```javascript
 POST http://localhost:8080/api/users/register
@@ -61,7 +61,40 @@ Example Response:
 }
 ```
 
- 
+## GET USER PROFILE
+
+Get User by Token
+   Endpoint: /users/profile/token
+   Method: GET
+   Description: Retrieves user details by auth token.
+   Request:
+   Path Parameters:
+   token (required): The token of the user to retrieve.
+   Response:
+   Status Code: 200 OK (if the event is found)
+   Status Code: 404 Not Found (if the event is not found)
+   Response Body: The event object.
+
+Example Request:
+
+```javascript
+GET http://localhost:8080/api/users/profile/token
+```
+
+Example Response:
+
+```javascript
+{
+    "user": {
+        "id": "550e8122-e29b-41d4-a716-446655440000",
+        "name": "John Swan",
+        "email": "JohnSwb@gmail.com",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLMMaDCAR74N60sNXV16VubfW9xtPniRB4DB06d3nIJEg=s317-c-no"
+    }
+}
+```
+
+
 ## AUTHETICATION
 
 Auth0 Integration with Passport.js
@@ -153,7 +186,6 @@ router.get(
 
 module.exports = router;
 ```
-
 ##Events Controller
 
 Endpoints
