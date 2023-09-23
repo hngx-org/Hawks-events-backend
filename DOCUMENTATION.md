@@ -16,6 +16,52 @@ Usage
 Base URL
 The base URL for all API requests is: http://localhost:8080/api/events
 
+## USER REGISTRATION
+
+##### Create USER
+   Endpoint: /users/register
+   Method: POST
+   Description: Creates a new user.
+   Request:
+   Request Body: JSON object with user properties (e.g. name, email and Image).
+   Response:
+   Status Code: 201 Created (if the user is created successfully)
+   Status Code: 400 Bad Request (if the request data is invalid)
+   Response Body: A success message.
+
+Example Request:
+```javascript
+POST http://localhost:8080/api/users/register
+```
+PayLoad
+```javascript
+{
+     "id":"550e8122-e29b-41d4-a716-446655440000",
+    "name":"John Swan",
+    "email":"JohnSwb@gmail.com",
+    "avatar":"https://lh3.googleusercontent.com/a/ACg8ocLMMaDCAR74N60sNXV16VubfW9xtPniRB4DB06d3nIJEg=s317-c-no"
+}
+```
+
+Example Response:
+```javascript
+{
+    "statusCode": 201,
+    "message": "User created successfully",
+    "data": [
+        {
+            "id": "550e8122-e29b-41d4-a716-446655440000",
+            "name": "John Swan",
+            "email": "JohnSwb@gmail.com",
+            "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLMMaDCAR74N60sNXV16VubfW9xtPniRB4DB06d3nIJEg=s317-c-no"
+        },
+        true
+    ],
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU1MGU4MTIyLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMCIsImVtYWlsIjoiSm9oblN3YkBnbWFpbC5jb20iLCJpYXQiOjE2OTU0NzA4ODAsImV4cCI6MTY5NTU1NzI4MH0.lwfFlyPjViYhbU9aslzy9GPSq2eRlTs2IsDkmb_eq3o"
+}
+```
+
+ 
 ## AUTHETICATION
 
 Auth0 Integration with Passport.js

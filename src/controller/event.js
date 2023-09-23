@@ -1,5 +1,10 @@
+
+const {
+  ServerError,
+  NotFoundError,
+  BadRequestError,
+} = require("../error/errors");
 const { MESSAGES } = require("../config/constants");
-const { ServerError } = require("../error/errors");
 const {Event } = require("../models/index");
 
 
@@ -20,7 +25,7 @@ exports.getAllEvents = async (req, res, next) => {
     // }
     res.status(200).json(events);
   } catch (err) {
-    throw new ServerError(MESSAGES.SERVER_ERROR)
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -37,7 +42,10 @@ exports.getEventById = async (req, res, next) => {
 
     res.status(200).json(event);
   } catch (err) {
-    throw new ServerError(MESSAGES.SERVER_ERROR)
+
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+ 
+
   }
 };
 
@@ -60,7 +68,6 @@ exports.updateEvent = async (req, res) => {
 
   if (!existingEvent) {
     return res.status(404).json({ error: MESSAGES.NOT_FOUND });
-
   }
 
   // Update event details using Sequelize
@@ -92,7 +99,7 @@ exports.postEvent = async (req, res, next) => {
     end_time,
   } = req.body;
   let eventItem;
-  console.log(description, location, title, creator_id, start_date, end_date);
+
   try {
     eventItem = await Event.create({
       thumbnail,
@@ -111,4 +118,21 @@ exports.postEvent = async (req, res, next) => {
     next(err);
   }
 
+};
+
+//delete event
+exports.deleteEvent = async (req, res, next) => {
+  const eventId = req.params.eventId;
+  try {
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: MESSAGES.NOT_FOUND });
+    }
+
+    await event.destroy();
+    res.status(200).json({ message: MESSAGES.EVENT_DELETED });
+  } catch (err) {
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+  }
 };
