@@ -1,11 +1,7 @@
 
-const {
-  ServerError,
-  NotFoundError,
-  BadRequestError,
-} = require("../error/errors");
 const { MESSAGES } = require("../config/constants");
-const {Event } = require("../models/index");
+const { ServerError } = require("../error/errors");
+const {Event} = require("../models/index");
 
 
 // HERE IS HOW TO USE THE ERROR 
@@ -88,11 +84,10 @@ exports.updateEvent = async (req, res) => {
 
 exports.postEvent = async (req, res, next) => {
   const {
-    thumbnail,
+    created_at,
     description,
     location,
     title,
-    creator_id,
     start_date,
     end_date,
     start_time,
@@ -102,10 +97,9 @@ exports.postEvent = async (req, res, next) => {
 
   try {
     eventItem = await Event.create({
-      thumbnail,
       description,
+      created_at,
       title,
-      creator_id,
       start_date,
       end_date,
       start_time,

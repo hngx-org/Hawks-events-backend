@@ -143,15 +143,11 @@ const Event = sequelize.define(
       type: STRING,
       allowNull: false,
     },
-    image:{
-      type:STRING,
-      allowNull:true
-    },
     description: {
       type: STRING,
     },
-    creator: {
-      type: UUID,
+    creator_id: {
+      type: String,
       references: {
         model: "Users",
         key: "id",
@@ -172,10 +168,7 @@ const Event = sequelize.define(
     end_time: {
       type: DATE,
     },
-    thumbnail: {
-      type: STRING,
-      comment: "URL to the thumbnail",
-    },
+
   },
   {
     timestamps: false,
