@@ -61,12 +61,14 @@ const constants = {
     INVALID_TOKEN: "Invalid token",
     INVALID_PASSWORD: "Invalid password",
     UNSUPPORTED_MEDIA_TYPE: "Unsupported Media Type",
-    BAD_REQUEST: "Bad Request",
     FORBIDDEN: "Forbidden",
+    SERVER_ERROR: "internal server error",
+    BAD_REQUEST: "Bad Request",
     UNPROCESSABLE_ENTITY: "Unprocessable Entity",
     NO_CONTENT: "No Content",
     METHOD_NOT_ALLOWED: "Method Not Allowed",
     LOCKED: "User account is locked",
+    INTERNAL_SERVER_ERROR: "Internal Server Error"
   },
 };
 
