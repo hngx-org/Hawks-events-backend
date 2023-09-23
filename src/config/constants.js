@@ -44,6 +44,8 @@ const constants = {
     USER_NOT_EXIST: "User does not exist",
     USER_ACTIVITY_GOTTEN: "User activities gotten successfully",
     EVENT_CREATED: "New Event created successfully",
+    EVENT_DELETED: "Event deleted successfully",
+    EVENT_NOT_FOUND:"Event not found",
     UPLOADED: "Upload Successful",
     CONFIRM_EMAIL: "Please confirm email",
     EMAIL_CONFIRMED: "Your email have been confirmed",

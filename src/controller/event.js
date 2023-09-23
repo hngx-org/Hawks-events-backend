@@ -1,4 +1,5 @@
 const { NotFoundError, ClientError } = require("../error/errors");
+const {MESSAGES} = require("./../config/constants");
 const Event = require("../models/events");
 
 /// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT
@@ -116,10 +117,10 @@ exports.deleteEvent = async (req, res) => {
   // Check if the event exists
   const existingEvent = await Event.findByPk(eventId);
   if (!eventId) {
-    throw new NotFoundError("Event not found");
+    throw new NotFoundError(MESSAGES.EVENT_NOT_FOUND);
   }
 
   // Delete event using Sequelize
   await existingEvent.destroy();
-  res.status(200).json({ message: "Event deleted successfully" });
+  res.status(200).json({ message:MESSAGES.EVENT_DELETED });
 };
