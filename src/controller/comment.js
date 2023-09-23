@@ -5,10 +5,10 @@ const { Op } = require("sequelize");
 // Create a new comment
 const createComment = async (req, res) => {
   try {
-    const { body, likes, dislikes, image } = req.body;
+    const { body, user_id, event_id } = req.body;
 
     // Create the comment in the database using the Comment model
-    const newComment = await Comment.create({ body, likes, dislikes, image });
+    const newComment = await Comment.create({ body, user_id, event_id });
 
     // Respond with the newly created comment
     res.status(201).json({ message: "Comment created", comment: newComment });
