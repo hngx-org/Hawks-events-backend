@@ -146,6 +146,13 @@ const Event = sequelize.define(
     description: {
       type: STRING,
     },
+    creator_id: {
+      type: String,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
     location: {
       type: STRING,
     },
@@ -161,6 +168,7 @@ const Event = sequelize.define(
     end_time: {
       type: DATE,
     },
+
   },
   {
     timestamps: false,

@@ -84,6 +84,7 @@ exports.updateEvent = async (req, res) => {
 
 exports.postEvent = async (req, res, next) => {
   const {
+    created_at,
     description,
     location,
     title,
@@ -97,6 +98,7 @@ exports.postEvent = async (req, res, next) => {
   try {
     eventItem = await Event.create({
       description,
+      created_at,
       title,
       start_date,
       end_date,
