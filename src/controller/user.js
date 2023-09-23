@@ -1,7 +1,7 @@
-const { CustomError } = require('../error/errors');
-const { MESSAGES } = require('../config/constants');
-const { createJwt } = require('../ultis/jwt');
-const userModel = require('../models/user');
+const { CustomError } = require("../error/errors");
+const { MESSAGES } = require("../config/constants");
+const { createJwt } = require("../ultis/jwt");
+const userModel = require("../models/user");
 
 const register = async (req, res, next) => {
   const requestBody = req.body || {};
@@ -12,7 +12,7 @@ const register = async (req, res, next) => {
     avatar: requestBody.avatar || null,
   };
 
-  const requiredFields = ['id', 'email', 'name', 'avatar'];
+  const requiredFields = ["id", "email", "name", "avatar"];
 
   const email = userData?.email;
   const userExist = await userModel.findOne({ where: { email } });
@@ -20,7 +20,7 @@ const register = async (req, res, next) => {
   if (userExist) {
     return res
       .status(400)
-      .json({ error: 'User with the same name or email already exists.' });
+      .json({ error: "User with the same name or email already exists." });
   }
 
   for (const field of requiredFields) {
@@ -77,6 +77,5 @@ const profile = async (req, res, next) => {
 
 module.exports = {
   register,
-  profile
+  profile,
 };
-
