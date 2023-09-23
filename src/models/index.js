@@ -119,10 +119,10 @@ const Group = sequelize.define(
       type: STRING,
       allowNull: false,
     },
-    image:{
-      type:STRING,
-      allowNull:true
-    }
+    image: {
+      type: STRING,
+      allowNull: true,
+    },
   },
   {
     timestamps: false,
@@ -143,14 +143,11 @@ const Event = sequelize.define(
       type: STRING,
       allowNull: false,
     },
-    image:{
-      type:STRING,
-      allowNull:true
-    },
+
     description: {
       type: STRING,
     },
-    creator: {
+    creator_id: {
       type: UUID,
       references: {
         model: "Users",
@@ -171,10 +168,6 @@ const Event = sequelize.define(
     },
     end_time: {
       type: DATE,
-    },
-    thumbnail: {
-      type: STRING,
-      comment: "URL to the thumbnail",
     },
   },
   {
@@ -202,9 +195,9 @@ const Comment = sequelize.define(
         key: "id",
       },
     },
-    image:{
-      type:STRING,
-      allowNull:true
+    image: {
+      type: STRING,
+      allowNull: true,
     },
     event_id: {
       type: UUID,
@@ -231,15 +224,15 @@ const Image = sequelize.define(
     },
     image_url: {
       type: ARRAY(STRING),
-      defaultValue: []
+      defaultValue: [],
     },
   },
   {
     timestamps: false,
     tableName: "images",
     modelName: "images",
-  });
-
+  }
+);
 
 //   const Comment_images = sequelize.define("comment_images", {
 //       image_id:{
@@ -289,7 +282,6 @@ const Image = sequelize.define(
 //   }
 // })
 
-
 User.belongsToMany(Event, { through: InterestedEvent });
 Event.belongsToMany(User, { through: InterestedEvent });
 
@@ -299,7 +291,7 @@ Group.belongsToMany(User, { through: UserGroup });
 Group.belongsToMany(Event, { through: GroupEvent });
 Event.belongsToMany(Group, { through: GroupEvent });
 
-Event.belongsTo(User, { foreignKey: "creator" });
+Event.belongsTo(User, { foreignKey: "creator_id" });
 
 User.hasMany(Comment, { foreignKey: "user_id" });
 Event.hasMany(Comment, { foreignKey: "event_id" });
@@ -308,7 +300,6 @@ Comment.hasMany(Image, { foreignKey: "comment_id" });
 //Image.belongsToMany(Comment_images, { through: "id"})
 //Image.belongsToMany(Event_thumbnail, { through: "id"})
 //Image.belongsToMany(Group_thumbnail, { through: "id"})
-
 
 sequelize
   .sync()
