@@ -11,8 +11,8 @@ const {
   deleteGroup 
 } = require('../repository/user_groups');
 
-const User = require("../models/user");
-const Group = require("../models/group");
+const {User} = require("../models/index");
+const {Group} = require("../models/index");
 
 class GroupController {
   async createGroup(req, res) {
