@@ -45,6 +45,7 @@ const constants = {
     USER_ACTIVITY_GOTTEN: "User activities gotten successfully",
     EVENT_CREATED: "New Event created successfully",
     EVENT_UPDATED: "Event updated successfully",
+    EVENT_DELETED: "Event deleted successfully",  
     UPLOADED: "Upload Successful",
     CONFIRM_EMAIL: "Please confirm email",
     EMAIL_CONFIRMED: "Your email have been confirmed",
