@@ -7,8 +7,6 @@ const constants = require("../config/constants");
 const { MESSAGES } = require("../config/constants");
 const { ServerError } = require("../error/errors");
 
-
-
 const storage = multer.diskStorage({
   destination: "./uploads/images",
   filename: (req, file, callback) => {
@@ -16,38 +14,34 @@ const storage = multer.diskStorage({
       path.parse(file.originalname).name.replace(/\s/g, "") + uuid();
     const extension = path.parse(file.originalname).ext;
     callback(null, `${filename}${extension}`);
-  }
+  },
 });
 
-
 const limits = { fileSize: 1024 * 1024 };
-const fileFilter = (req, file, callback) => {
-  if (!Boolean(file.mimetype.match(/(jpg|jpeg|png|gif)/)))
-    callback(null, false);
-  callback(null, true);
 
+const fileFilter = (req, file, callback) => {
+  if (!Boolean(file.mimetype.match(/(jpg|jpeg|png|gif)/))) {
+    callback(null, false);
+  } else {
+    callback(null, true);
+  }
 };
 
+const uploadImage = multer({ fileFilter, storage, limits });
 
 const upload = async (req, res) => {
   try {
     const responses = [];
-			
-			
-const uploadImage = multer({ fileFilter, storage, limits });
-			const upload = async (req, res) => {
-	try {
-		const responses = [];
-
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No files uploaded" });
     }
 
-    if (req.files.length >= 3)
+    if (req.files.length >= 3) {
       return res
         .status(400)
-        .json({ error: "Maximum number of files to uploaded is two" });
+        .json({ error: "Maximum number of files to upload is two" });
+    }
 
     for (const file of req.files) {
       const { path, buffer } = file;
@@ -67,11 +61,7 @@ const uploadImage = multer({ fileFilter, storage, limits });
   }
 };
 
-
 module.exports = {
   upload,
   uploadImage,
-  //   handleNoFilesUploaded,
-	upload,
-	uploadImage,
 };

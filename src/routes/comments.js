@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const eventController = require('../controller/comment');
-const protect = require('../middlewares/protect')
+const eventController = require("../controller/comment");
+const protect = require("../middlewares/protect");
 
-
-// use case 
+// use case
 // router.get("/", protect, eventController.createEvent) => ALL ROUTES HERE SHOULD HAVE THIS!
 
+router.post("/", commentController.createComment);
 
-module.exports = router
+module.exports = router;
