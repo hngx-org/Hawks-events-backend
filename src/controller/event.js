@@ -1,6 +1,6 @@
 const { MESSAGES } = require("../config/constants");
 const {NotFoundError, ClientError, ServerError } = require("../error/errors");
-const Event = require("../models/events");
+const {Event} = require("../models/index");
 
 /// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT 
 
