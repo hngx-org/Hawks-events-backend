@@ -49,7 +49,8 @@ const register = async (req, res, next) => {
       })
       .catch((error) => {
    
-        
+
+
         throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
         return next(CustomError(error.message, 500));
       });
