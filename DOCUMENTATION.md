@@ -62,8 +62,6 @@ Example Response:
 ```
 
  
-
-
 ## AUTHETICATION
 
 Auth0 Integration with Passport.js
@@ -155,6 +153,7 @@ router.get(
 
 module.exports = router;
 ```
+
 ##Events Controller
 
 Endpoints

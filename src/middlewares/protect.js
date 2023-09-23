@@ -1,10 +1,11 @@
 const { MESSAGES } = require("../config/constants");
 const { UnauthorizedError } = require("../error/errors");
-const UserModel = require("../models/user");
+const { User } = require("../models/index");
 const { decryptData } = require("../ultis/jwt");
 
 const protect = async (req, res, next) => {
   let token;
+
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -18,7 +19,7 @@ const protect = async (req, res, next) => {
 
   try {
     const user = await decryptData(token);
-    req.user = await UserModel.findByPk(user.id);
+    req.user = await User.findByPk(user.id);
     next();
   } catch (error) {
     throw new UnauthorizedError(MESSAGES.EXPIRED_TOKEN);
