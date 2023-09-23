@@ -1,7 +1,7 @@
 const { CustomError } = require("../error/errors");
 const { MESSAGES } = require("../config/constants");
 const { createJwt } = require("../ultis/jwt");
-const userModel = require("../models/user");
+const { User } = require("../models/index");
 
 const register = async (req, res, next) => {
   const requestBody = req.body || {};
@@ -14,35 +14,23 @@ const register = async (req, res, next) => {
 
   const requiredFields = ["id", "email", "name", "avatar"];
 
-  const email = userData?.email;
-  const userExist = await userModel.findOne({ where: { email } });
-
-  if (userExist) {
-    return res
-      .status(400)
-      .json({ error: "User with the same name or email already exists." });
-  }
-
   for (const field of requiredFields) {
     if (!userData[field]) {
       res.status(400).json({ error: `Missing ${field}` });
       return;
     }
   }
-  let User;
-  let created;
 
   try {
-    userModel
-      .findOrCreate({
-        where: { id: userData.id, email: userData.email },
-        defaults: {
-          id: userData.id,
-          name: userData.name,
-          email: userData.email,
-          avatar: userData.avatar,
-        },
-      })
+    User.findOrCreate({
+      where: { id: userData.id, email: userData.email },
+      defaults: {
+        id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        avatar: userData.avatar,
+      },
+    })
       .then(async (data) => {
         const token = await createJwt({
           id: userData.id,
@@ -56,9 +44,11 @@ const register = async (req, res, next) => {
         });
       })
       .catch((error) => {
+        console.log(error);
         return next(CustomError(error.message, 500));
       });
   } catch (error) {
+    console.log(error);
     next(err);
   }
 };
