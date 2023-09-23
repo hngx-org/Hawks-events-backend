@@ -2,7 +2,6 @@ const { MESSAGES } = require("../config/constants");
 const { ServerError } = require("../error/errors");
 const Event = require("../models/index");
 
-/// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT 
 
 // HERE IS HOW TO USE THE ERROR 
 
