@@ -197,10 +197,7 @@ const Comment = sequelize.define(
         key: "id",
       },
     },
-    image: {
-      type: STRING,
-      allowNull: true,
-    },
+    
     event_id: {
       type: UUID,
       references: {
