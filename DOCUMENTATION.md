@@ -16,8 +16,7 @@ Sequelize: Sequelize is a modern TypeScript and Node.js ORM for MySQL SQL Server
 - Database connection implementation.
 - Usage
 - Base URL
-
-The base URL for all API requests is: http://localhost:8080/api/events
+- The base URL for all API requests is: http://localhost:8080/api/events
 
 ## USER REGISTRATION
 
@@ -66,6 +65,39 @@ Example Response:
         true
     ],
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU1MGU4MTIyLWUyOWItNDFkNC1hNzE2LTQ0NjY1NTQ0MDAwMCIsImVtYWlsIjoiSm9oblN3YkBnbWFpbC5jb20iLCJpYXQiOjE2OTU0NzA4ODAsImV4cCI6MTY5NTU1NzI4MH0.lwfFlyPjViYhbU9aslzy9GPSq2eRlTs2IsDkmb_eq3o"
+}
+```
+
+## GET USER PROFILE
+
+Get User by Token
+Endpoint: /users/profile/token
+Method: GET
+Description: Retrieves user details by auth token.
+Request:
+Path Parameters:
+token (required): The token of the user to retrieve.
+Response:
+Status Code: 200 OK (if the event is found)
+Status Code: 404 Not Found (if the event is not found)
+Response Body: The event object.
+
+Example Request:
+
+```javascript
+GET http://localhost:8080/api/users/profile/token
+```
+
+Example Response:
+
+```javascript
+{
+    "user": {
+        "id": "550e8122-e29b-41d4-a716-446655440000",
+        "name": "John Swan",
+        "email": "JohnSwb@gmail.com",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLMMaDCAR74N60sNXV16VubfW9xtPniRB4DB06d3nIJEg=s317-c-no"
+    }
 }
 ```
 
@@ -161,7 +193,7 @@ router.get(
 module.exports = router;
 ```
 
-## Events Controller
+##Events Controller
 
 Endpoints
 
@@ -348,8 +380,6 @@ Example Response:
     "message": "event created"
 }
 ```
-
-## Comments
 
 ## Errors
 
