@@ -1,4 +1,4 @@
-const UserGroup = require('../models/user_groups');
+const {UserGroup} = require('../models/index');
 
 class UserGroupRepository {
    addUserGroup = async (user_id, group_id) => {
