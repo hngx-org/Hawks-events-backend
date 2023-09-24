@@ -17,7 +17,7 @@ class UserGroupRepository {
          })
          return isMember ? true : false
       } catch (error) {
-         return error
+         throw error
       }
    }
 
@@ -28,7 +28,7 @@ class UserGroupRepository {
          })
          return JSON.parse(JSON.stringify(members))
       } catch (error) {
-         return error
+         throw error
       }
    }
 
@@ -39,18 +39,9 @@ class UserGroupRepository {
          })
          return JSON.parse(JSON.stringify(users))
       } catch (error) {
-         return error
+         throw error
       }
    }
-
-   // findByPk = async(group_id) => {
-   //    try {
-   //       const users = await UserGroup.findByPk(group_id)
-   //       return JSON.parse(JSON.stringify(users))
-   //    } catch (error) {
-   //       return error
-   //    }
-   // }
       
    removeAmemberFromGroup = async (user_id, group_id) => {
       try {
@@ -59,7 +50,7 @@ class UserGroupRepository {
          })
          return response
       } catch (error) {
-         return error
+         throw error
       }
    }
 
