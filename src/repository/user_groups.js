@@ -1,10 +1,14 @@
-const { UserGroup} = require("../models/index")
+const { User, Group, UserGroup} = require("../models/index")
 
 class UserGroupRepository {
    addAUserToGroup = async (user_id, group_id) => {
       try {
-         const newUserGroup = await UserGroup.create({user_id, group_id})
-         return JSON.parse(JSON.stringify(newUserGroup))
+         await UserGroup.create({user_id, group_id})
+         const result = await User.findOne({ 
+            where: { id: user_id },
+            include: Group
+         })
+         return JSON.parse(JSON.stringify(result))
       } catch (error) {
          throw error
       }
@@ -24,7 +28,10 @@ class UserGroupRepository {
    findAllMembers = async (group_id) => {
       try {
          const members = await UserGroup.findAll({
-            where: { group_id }
+            attributes: {
+               exclude: ["group_id"]
+            },
+            where: { group_id },
          })
          return JSON.parse(JSON.stringify(members))
       } catch (error) {

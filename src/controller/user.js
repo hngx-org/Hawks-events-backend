@@ -27,7 +27,7 @@ const register = async (req, res, next) => {
     User.findOrCreate({
       where: { id, email: userData.email },
       defaults: {
-        id: uuid(),
+        id,
         name: userData.name,
         email: userData.email,
         avatar: userData.avatar,
@@ -35,7 +35,7 @@ const register = async (req, res, next) => {
     })
       .then(async (data) => {
         const token = await createJwt({
-          id: userData.id,
+          id,
           email: userData.email,
         });
         res.status(201).json({
@@ -47,7 +47,6 @@ const register = async (req, res, next) => {
       })
       .catch((error) => {
         throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
-        return next(CustomError(error.message, 500));
       });
   } catch (error) {
     console.log(error);

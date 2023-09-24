@@ -14,6 +14,8 @@ const {
   findAMember,
 } = require('../repository/user_groups');
 
+const { findUserById } = require("../repository/user");
+
 
 class GroupController {
   async createGroup(req, res) {
@@ -74,6 +76,18 @@ class GroupController {
 
   async addUserToGroup(req, res) {
     try {
+      // Check if group exists
+      const group = await findGroupById(req.params.groupId)
+      if (!group) {
+        return res.status(400).json({ message: "Group does not exist" });
+      }
+
+      // Check if user exists
+      const user = await findUserById(req.params.userId)
+      if (!user) {
+        return res.status(400).json({ message: "User does not exist" });
+      }
+
       // Check if user is in the group already
       const isAMember = await findAMember(req.params.userId, req.params.groupId);
       if (isAMember === true) {

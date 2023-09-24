@@ -57,9 +57,44 @@ const InterestedEvent = sequelize.define(
   }
 );
 
+const Group = sequelize.define(
+  "Group",
+  {
+    id: {
+      type: UUID,
+      primaryKey: true,
+      defaultValue: UUIDV4,
+    },
+    title: {
+      type: STRING,
+      allowNull: false,
+    }
+  },
+  {
+    timestamps: false,
+    tableName: "groups",
+    modelName: "groups",
+  }
+);
+
 const UserGroup = sequelize.define(
   "UserGroup",
-  {}, {
+  {
+    user_id : {
+      type: DataTypes.STRING,
+      references: {
+        model: User,
+        key: "id"
+      }
+    },
+    group_id : {
+      type: DataTypes.STRING,
+      references: {
+        model: Group,
+        key: "id"
+      }
+    }
+  }, {
     timestamps: false,
     tableName: "user_groups",
     modelName: "user_groups",
@@ -88,30 +123,6 @@ const GroupEvent = sequelize.define(
     timestamps: false,
     tableName: "group_events",
     modelName: "group_events",
-  }
-);
-
-const Group = sequelize.define(
-  "Group",
-  {
-    id: {
-      type: UUID,
-      primaryKey: true,
-      defaultValue: UUIDV4,
-    },
-    title: {
-      type: STRING,
-      allowNull: false,
-    }
-    // image:{
-    //   type:STRING,
-    //   allowNull:true
-    // }
-  },
-  {
-    timestamps: false,
-    tableName: "groups",
-    modelName: "groups",
   }
 );
 
