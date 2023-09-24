@@ -1,4 +1,5 @@
-##Overview
+## Overview
+
 This repository contains the code for a REST API built using Nodejs, Express, Sequelize, Mysql2. The API is designed to allow its users to signup on an event app, create an event, view events created and also update event created. The code is well-written and easy to understand, so even if you're not an expert in programming, you should be able to navigate it without any problems.
 
 ##TechStack
@@ -7,33 +8,39 @@ Express: Express.js is a popular open-source Node.js framework for building web 
 
 Sequelize: Sequelize is a modern TypeScript and Node.js ORM for MySQL SQL Server, and more. Featuring solid transaction support, relations, eager and lazy loading, read replication and more.
 
-##Features
-All the crud operations both users and event functionality
-Proper Error checking
-Input Validation
-Database connection implementation.
-Usage
-Base URL
+## Features
+
+- All the crud operations both users and event functionality
+- Proper Error checking
+- Input Validation
+- Database connection implementation.
+- Usage
+- Base URL
+
 The base URL for all API requests is: http://localhost:8080/api/events
 
 ## USER REGISTRATION
 
 ##### Create USER
-   Endpoint: /users/register
-   Method: POST
-   Description: Creates a new user.
-   Request:
-   Request Body: JSON object with user properties (e.g. name, email and Image).
-   Response:
-   Status Code: 201 Created (if the user is created successfully)
-   Status Code: 400 Bad Request (if the request data is invalid)
-   Response Body: A success message.
+
+Endpoint: /users/register
+Method: POST
+Description: Creates a new user.
+Request:
+Request Body: JSON object with user properties (e.g. name, email and Image).
+Response:
+Status Code: 201 Created (if the user is created successfully)
+Status Code: 400 Bad Request (if the request data is invalid)
+Response Body: A success message.
 
 Example Request:
+
 ```javascript
 POST http://localhost:8080/api/users/register
 ```
+
 PayLoad
+
 ```javascript
 {
      "id":"550e8122-e29b-41d4-a716-446655440000",
@@ -44,6 +51,7 @@ PayLoad
 ```
 
 Example Response:
+
 ```javascript
 {
     "statusCode": 201,
@@ -61,7 +69,6 @@ Example Response:
 }
 ```
 
- 
 ## AUTHETICATION
 
 Auth0 Integration with Passport.js
@@ -78,30 +85,30 @@ Google Developer Console project with OAuth 2.0 credentials.
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const {
-  GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET,
 } = require("../config/constants");
 
 passport.serializeUser(function (user, cb) {
-  cb(null, user);
+	cb(null, user);
 });
 
 passport.deserializeUser(function (obj, cb) {
-  cb(null, obj);
+	cb(null, obj);
 });
 
 passport.use(
-  new GoogleStrategy(
-    {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:8080/api/auth/google/callback",
-    },
-    function (accessToken, refreshToken, profile, done) {
-      userProfile = profile;
-      return done(null, userProfile);
-    }
-  )
+	new GoogleStrategy(
+		{
+			clientID: GOOGLE_CLIENT_ID,
+			clientSecret: GOOGLE_CLIENT_SECRET,
+			callbackURL: "http://localhost:8080/api/auth/google/callback",
+		},
+		function (accessToken, refreshToken, profile, done) {
+			userProfile = profile;
+			return done(null, userProfile);
+		}
+	)
 );
 
 module.exports = passport;
@@ -119,11 +126,11 @@ const express = require("express");
 const app = express();
 
 app.use(
-  session({
-    resave: false,
-    saveUninitialized: true,
-    secret: "SECRET",
-  })
+	session({
+		resave: false,
+		saveUninitialized: true,
+		secret: "SECRET",
+	})
 );
 
 app.use(passport.initialize());
@@ -137,24 +144,24 @@ const router = require("express").Router();
 const passport = require("../authentication/passport");
 
 router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+	"/google",
+	passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 router.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/error" }),
-  (req, res) => {
-    // Successful authentication,
-    const user = req.user;
-    res.status(200).json({ message: "success" });
-  }
+	"/google/callback",
+	passport.authenticate("google", { failureRedirect: "/error" }),
+	(req, res) => {
+		// Successful authentication,
+		const user = req.user;
+		res.status(200).json({ message: "success" });
+	}
 );
 
 module.exports = router;
 ```
 
-##Events Controller
+## Events Controller
 
 Endpoints
 
@@ -178,34 +185,34 @@ Example Response:
 
 ```javascript
 [
-  {
-    id: "23873d15-cde3-442f-8045-819156d3f4ee",
-    title: "team hawks",
-    description: "team hawks",
-    creator_id: "chinedu",
-    location: "Nigeria",
-    start_date: "1995-01-01",
-    end_date: "1996-02-05",
-    start_time: "14:55:55",
-    end_time: "15:55:55",
-    thumbnail: "hello.jpeg",
-    createdAt: "2023-09-21T02:28:33.000Z",
-    updatedAt: "2023-09-21T02:28:33.000Z",
-  },
-  {
-    id: "760902c7-3e15-4a42-becb-b55f821feefa",
-    title: "Sample Event",
-    description: "This is a sample event description.",
-    creator_id: "12345",
-    location: "Sample Location",
-    start_date: "2023-09-25",
-    end_date: "2023-09-26",
-    start_time: "00:11:11",
-    end_time: "00:11:11",
-    thumbnail: "testing",
-    createdAt: "2023-09-21T07:14:49.000Z",
-    updatedAt: "2023-09-21T07:14:49.000Z",
-  },
+	{
+		id: "23873d15-cde3-442f-8045-819156d3f4ee",
+		title: "team hawks",
+		description: "team hawks",
+		creator_id: "chinedu",
+		location: "Nigeria",
+		start_date: "1995-01-01",
+		end_date: "1996-02-05",
+		start_time: "14:55:55",
+		end_time: "15:55:55",
+		thumbnail: "hello.jpeg",
+		createdAt: "2023-09-21T02:28:33.000Z",
+		updatedAt: "2023-09-21T02:28:33.000Z",
+	},
+	{
+		id: "760902c7-3e15-4a42-becb-b55f821feefa",
+		title: "Sample Event",
+		description: "This is a sample event description.",
+		creator_id: "12345",
+		location: "Sample Location",
+		start_date: "2023-09-25",
+		end_date: "2023-09-26",
+		start_time: "00:11:11",
+		end_time: "00:11:11",
+		thumbnail: "testing",
+		createdAt: "2023-09-21T07:14:49.000Z",
+		updatedAt: "2023-09-21T07:14:49.000Z",
+	},
 ];
 ```
 
@@ -231,20 +238,20 @@ Example Response:
 
 ```javascript
 [
-  {
-    id: "760902c7-3e15-4a42-becb-b55f821feefa",
-    title: "Sample Event",
-    description: "This is a sample event description.",
-    creator_id: "12345",
-    location: "Sample Location",
-    start_date: "2023-09-25",
-    end_date: "2023-09-26",
-    start_time: "00:11:11",
-    end_time: "00:11:11",
-    thumbnail: "testing",
-    createdAt: "2023-09-21T07:14:49.000Z",
-    updatedAt: "2023-09-21T07:14:49.000Z",
-  },
+	{
+		id: "760902c7-3e15-4a42-becb-b55f821feefa",
+		title: "Sample Event",
+		description: "This is a sample event description.",
+		creator_id: "12345",
+		location: "Sample Location",
+		start_date: "2023-09-25",
+		end_date: "2023-09-26",
+		start_time: "00:11:11",
+		end_time: "00:11:11",
+		thumbnail: "testing",
+		createdAt: "2023-09-21T07:14:49.000Z",
+		updatedAt: "2023-09-21T07:14:49.000Z",
+	},
 ];
 ```
 
@@ -342,7 +349,10 @@ Example Response:
 }
 ```
 
-##Errors
+## Comments
+
+## Errors
+
 This API uses the following error codes:
 
 - 400 Bad Request: The request was malformed or missing required parameters.
