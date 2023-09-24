@@ -1,5 +1,4 @@
 ## Overview
-
 This repository contains the code for a REST API built using Nodejs, Express, Sequelize, Mysql2. The API is designed to allow its users to signup on an event app, create an event, view events created and also update event created. The code is well-written and easy to understand, so even if you're not an expert in programming, you should be able to navigate it without any problems.
 
 ##TechStack
@@ -18,20 +17,20 @@ Sequelize: Sequelize is a modern TypeScript and Node.js ORM for MySQL SQL Server
 - Base URL
 - The base URL for all API requests is: http://localhost:8080/api/events
 
+
 ## USER REGISTRATION
 
 ##### Create USER
-
-Endpoint: /users/register
-Method: POST
-Description: Creates a new user.
-Request:
-Request Body: JSON object with user properties (e.g. name, email and Image).
-Response:
-Status Code: 201 Created (if the user is created successfully)
-Status Code: 400 Bad Request (if the request data is invalid)
-Response Body: A success message.
-
+   Endpoint: /users/register
+   Method: POST
+   Description: Creates a new user.
+   Request:
+   Request Body: JSON object with user properties (e.g. name, email and Image).
+   Response:
+   Status Code: 201 Created (if the user is created successfully)
+   Status Code: 400 Bad Request (if the request data is invalid)
+   Response Body: A success message.
+   
 Example Request:
 
 ```javascript
@@ -71,16 +70,16 @@ Example Response:
 ## GET USER PROFILE
 
 Get User by Token
-Endpoint: /users/profile/token
-Method: GET
-Description: Retrieves user details by auth token.
-Request:
-Path Parameters:
-token (required): The token of the user to retrieve.
-Response:
-Status Code: 200 OK (if the event is found)
-Status Code: 404 Not Found (if the event is not found)
-Response Body: The event object.
+   Endpoint: /users/profile/token
+   Method: GET
+   Description: Retrieves user details by auth token.
+   Request:
+   Path Parameters:
+   token (required): The token of the user to retrieve.
+   Response:
+   Status Code: 200 OK (if the event is found)
+   Status Code: 404 Not Found (if the event is not found)
+   Response Body: The event object.
 
 Example Request:
 
@@ -192,7 +191,6 @@ router.get(
 
 module.exports = router;
 ```
-
 ##Events Controller
 
 Endpoints

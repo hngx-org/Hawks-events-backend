@@ -1,11 +1,7 @@
 
-const {
-  ServerError,
-  NotFoundError,
-  BadRequestError,
-} = require("../error/errors");
 const { MESSAGES } = require("../config/constants");
-const {Event } = require("../models/index");
+const { ServerError } = require("../error/errors");
+const {Event} = require("../models/index");
 
 
 // HERE IS HOW TO USE THE ERROR 
@@ -32,9 +28,13 @@ exports.getAllEvents = async (req, res, next) => {
 // Get event details by eventId
 exports.getEventById = async (req, res, next) => {
   const eventId = req.params.eventId;
-
+console.log(eventId)
   try {
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findOne({
+      where: {
+        id: eventId,
+      },
+    });
 
     if (!event) {
       return res.status(404).json({message:MESSAGES.NOT_FOUND});
@@ -60,11 +60,14 @@ exports.updateEvent = async (req, res) => {
     end_date,
     start_time,
     end_time,
-    thumbnail,
   } = req.body;
 
   // Check if the event exists
-  const existingEvent = await Event.findByPk(eventId);
+  const existingEvent = await Event.findOne({
+    where: {
+      id: eventId,
+    },
+  });
 
   if (!existingEvent) {
     return res.status(404).json({ error: MESSAGES.NOT_FOUND });
@@ -78,7 +81,6 @@ exports.updateEvent = async (req, res) => {
   existingEvent.end_date = end_date;
   existingEvent.start_time = start_time;
   existingEvent.end_time = end_time;
-  existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
   res.status(200).json({ message: MESSAGES.EVENT_UPDATED });
@@ -88,11 +90,10 @@ exports.updateEvent = async (req, res) => {
 
 exports.postEvent = async (req, res, next) => {
   const {
-    thumbnail,
+    creator_id,
     description,
     location,
     title,
-    creator_id,
     start_date,
     end_date,
     start_time,
@@ -102,17 +103,16 @@ exports.postEvent = async (req, res, next) => {
 
   try {
     eventItem = await Event.create({
-      thumbnail,
       description,
-      title,
       creator_id,
+      title,
       start_date,
       end_date,
       start_time,
       end_time,
       location,
     });
-    
+    console.log(creator_id)
     res.status(201).json({ statusCode: 201, message: MESSAGES.EVENT_CREATED });
   } catch (err) {
     next(err);
@@ -124,7 +124,11 @@ exports.postEvent = async (req, res, next) => {
 exports.deleteEvent = async (req, res, next) => {
   const eventId = req.params.eventId;
   try {
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findOne({
+      where: {
+        id: eventId,
+      },
+    });
 
     if (!event) {
       return res.status(404).json({ error: MESSAGES.NOT_FOUND });

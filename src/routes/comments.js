@@ -7,5 +7,6 @@ const protect = require("../middlewares/protect");
 // router.get("/", protect, eventController.createEvent) => ALL ROUTES HERE SHOULD HAVE THIS!
 
 router.post("/", commentController.createComment);
+router.get("/", commentController.getAllComments);
 
 module.exports = router;

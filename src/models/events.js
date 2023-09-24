@@ -1,7 +1,6 @@
 // const { DataTypes } = require("sequelize");
 // const Sequelize = require('../../db/database')
 
- 
 // const Event = Sequelize.define('Event', {
 //   id: {
 //     primaryKey: true,
@@ -55,5 +54,5 @@
 //   .catch((error) => {
 //     console.error("Unable to create event table : ", error);
 //   });
-  
+
 // module.exports = Event;
