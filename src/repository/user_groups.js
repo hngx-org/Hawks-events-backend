@@ -1,16 +1,16 @@
-const UserGroup = require('../models/user_groups');
+const { UserGroup} = require("../models/index")
 
 class UserGroupRepository {
-   addUserGroup = async (user_id, group_id) => {
+   addAUserToGroup = async (user_id, group_id) => {
       try {
          const newUserGroup = await UserGroup.create({user_id, group_id})
          return JSON.parse(JSON.stringify(newUserGroup))
       } catch (error) {
-         return error
+         throw error
       }
    }
 
-   findMember = async (user_id, group_id) => {
+   findAMember = async (user_id, group_id) => {
       try {
          const isMember = await UserGroup.findOne({
             where: { user_id, group_id }
@@ -20,6 +20,37 @@ class UserGroupRepository {
          return error
       }
    }
+
+   findAllMembers = async (group_id) => {
+      try {
+         const members = await UserGroup.findAll({
+            where: { group_id }
+         })
+         return JSON.parse(JSON.stringify(members))
+      } catch (error) {
+         return error
+      }
+   }
+
+   findByPk = async(group_id) => {
+      try {
+         const users = await UserGroup.findOne({
+            where: group_id
+         })
+         return JSON.parse(JSON.stringify(users))
+      } catch (error) {
+         return error
+      }
+   }
+
+   // findByPk = async(group_id) => {
+   //    try {
+   //       const users = await UserGroup.findByPk(group_id)
+   //       return JSON.parse(JSON.stringify(users))
+   //    } catch (error) {
+   //       return error
+   //    }
+   // }
       
    removeAmemberFromGroup = async (user_id, group_id) => {
       try {

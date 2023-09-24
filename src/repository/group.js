@@ -1,12 +1,10 @@
-const Group = require('../models/group')
-const { uuid } = require('uuidv4')
+const { Group } = require("../models/index")
+// const Group = require('../models/group')
 
 class GroupRepository {
    
-   addGroup = async (title) => {
+   addGroup = async (id, title) => {
       try {
-         const id = uuid()
-         console.log(id)
          const newGroup = await Group.create({id, title})
          return JSON.parse(JSON.stringify(newGroup))
       } catch (error) {
@@ -15,12 +13,20 @@ class GroupRepository {
 
    }
 
-   };
+   findGroupById = async(group_id) => {
+      try {
+         const group = await Group.findByPk(group_id)
+         return JSON.parse(JSON.stringify(group))
+      } catch (error) {
+         return error
+      }
+   }
+
 
    // Update group details by UUID
-   updateGroup = async (groupId, title) => {
+   updateGroup = async (group_id, title) => {
       try {
-         const group = await Group.findByPk(groupId);
+         const group = await Group.findByPk(group_id);
 
          if (!group) {
             throw new Error('Group not found');
@@ -35,10 +41,10 @@ class GroupRepository {
       }
    };
 
-   deleteGroup = async (groupId) => {
+   deleteGroup = async (group_id) => {
       try {
          const deletedGroup = await Group.destroy({
-            where: { id: groupId },
+            where: { id: group_id },
          });
          return deletedGroup;
       } catch (error) {
