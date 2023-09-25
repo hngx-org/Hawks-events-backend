@@ -61,6 +61,17 @@ class UserGroupRepository {
       }
    }
 
+   deleteUserGroup = async (user_id, group_id) => {
+      try {
+         const deletedUsers = await UserGroup.destroy({
+            where: { user_id, group_id }
+         });
+         return deletedUsers;
+      } catch (error) {
+         return error;
+      }
+   };
+
 }
 
 module.exports = new UserGroupRepository;

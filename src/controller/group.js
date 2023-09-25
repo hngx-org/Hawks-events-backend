@@ -12,6 +12,7 @@ const {
   removeAmemberFromGroup,
   findAllMembers,
   findAMember,
+  deleteUserGroup,
 } = require('../repository/user_groups');
 
 const { findUserById } = require("../repository/user");
@@ -59,13 +60,23 @@ class GroupController {
 
   async deleteGroup (req, res) {
     try {
-       const { groupId } = req.params
-       const deletedGroup = await deleteGroup(groupId);
-       if (deletedGroup === 1) {
-          return res.status(200).json({ message: "Group deleted successfully" });
-       } else {
-          return res.status(500).json({ message: "Group not found" });
-       }
+      const { groupId } = req.params
+      // Check if group exist
+      const group = await findGroupById(req.params.groupId)
+      if (!group) {
+        return res.status(400).json({ message: "Group does not exist" });
+      }
+
+      // Delete users from group
+      await deleteGroup(groupId)
+
+      // Delete group
+      const deletedGroup = await deleteUserGroup(req.user.dataValues.id, groupId);
+      if (deletedGroup === 1) {
+        return res.status(200).json({ message: "Group deleted successfully" });
+      } else {
+        return res.status(500).json({ message: "Group not found" });
+      }
     } catch (error) {
        return res.status(500).json({
           message: "Error deleting group",
