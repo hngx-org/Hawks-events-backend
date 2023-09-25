@@ -1,4 +1,3 @@
-const { uuid } = require('uuidv4')
 const { ServerError, NotFoundError } = require("../error/errors");
 const { CustomError } = require("../error/errors");
 const { MESSAGES } = require("../config/constants");
@@ -6,15 +5,15 @@ const { createJwt } = require("../ultis/jwt");
 const { User } = require("../models/index");
 
 const register = async (req, res, next) => {
-  const id = uuid()
   const requestBody = req.body || {};
   const userData = {
+    id: requestBody.id || null,
     name: requestBody.name || null,
     email: requestBody.email || null,
     avatar: requestBody.avatar || null,
   };
 
-  const requiredFields = ["email", "name", "avatar"];
+  const requiredFields = ["id", "email", "name", "avatar"];
 
   for (const field of requiredFields) {
     if (!userData[field]) {
@@ -25,9 +24,9 @@ const register = async (req, res, next) => {
 
   try {
     User.findOrCreate({
-      where: { id, email: userData.email },
+      where: { id: userData.id, email: userData.email },
       defaults: {
-        id,
+        id: userData.id,
         name: userData.name,
         email: userData.email,
         avatar: userData.avatar,
@@ -35,7 +34,7 @@ const register = async (req, res, next) => {
     })
       .then(async (data) => {
         const token = await createJwt({
-          id,
+          id: userData.id,
           email: userData.email,
         });
         res.status(201).json({
@@ -47,6 +46,7 @@ const register = async (req, res, next) => {
       })
       .catch((error) => {
         throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+        return next(CustomError(error.message, 500));
       });
   } catch (error) {
     console.log(error);
@@ -56,8 +56,6 @@ const register = async (req, res, next) => {
 
 const profile = async (req, res, next) => {
   try {
-    console.log(req.id)
-    console.log(req.user.dataValues.id)
     const user = await User.findByPk(req.user.dataValues.id);
     if (!user) {
       return next(CustomError(MESSAGES.USER_NOT_EXIST, 404));

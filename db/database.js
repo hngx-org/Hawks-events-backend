@@ -1,6 +1,6 @@
 const {SEQUELIZE} = require("../src/config/constants")
 
-const { Sequelize } = require("sequelize");
+const sequelize = require("sequelize");
 const {
   MYSQL_SERVER, 
   MYSQL_DIALECT,
@@ -11,7 +11,7 @@ const {
 } = require("../src/config/constants")
 
 
-const sequelize = new Sequelize(
+const Sequelize = new sequelize(
   MYSQL_DB, 
   MYSQL_USER, 
   MYSQL_PASSWORD, {
@@ -21,7 +21,7 @@ const sequelize = new Sequelize(
 
 
 
-sequelize.authenticate()
+Sequelize.authenticate()
     .then(() => {
       console.log(SEQUELIZE.CONNECTION_SUCCESSFUL);
     })
@@ -29,4 +29,4 @@ sequelize.authenticate()
       console.error(SEQUELIZE.CONNECTION_FAILED, error);
 });
 
-module.exports = sequelize
+module.exports = Sequelize

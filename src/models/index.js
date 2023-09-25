@@ -37,10 +37,10 @@ const InterestedEvent = sequelize.define(
   {
     user_id: {
       type: UUID,
-      // references: {
-      //   model: "Users",
-      //   key: "id",
-      // },
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
     event_id: {
       type: UUID,
@@ -57,44 +57,25 @@ const InterestedEvent = sequelize.define(
   }
 );
 
-const Group = sequelize.define(
-  "Group",
-  {
-    id: {
-      type: UUID,
-      primaryKey: true,
-      defaultValue: UUIDV4,
-    },
-    title: {
-      type: STRING,
-      allowNull: false,
-    }
-  },
-  {
-    timestamps: false,
-    tableName: "groups",
-    modelName: "groups",
-  }
-);
-
 const UserGroup = sequelize.define(
   "UserGroup",
   {
-    user_id : {
-      type: DataTypes.STRING,
+    user_id: {
+      type: UUID,
       references: {
-        model: User,
-        key: "id"
-      }
+        model: "Users",
+        key: "id",
+      },
     },
-    group_id : {
-      type: DataTypes.STRING,
+    group_id: {
+      type: UUID,
       references: {
-        model: Group,
-        key: "id"
-      }
-    }
-  }, {
+        model: "Groups",
+        key: "id",
+      },
+    },
+  },
+  {
     timestamps: false,
     tableName: "user_groups",
     modelName: "user_groups",
@@ -113,16 +94,40 @@ const GroupEvent = sequelize.define(
     },
     group_id: {
       type: UUID,
-      // references: {
-      //   model: "Groups",
-      //   key: "id",
-      // },
+      references: {
+        model: "Groups",
+        key: "id",
+      },
     },
   },
   {
     timestamps: false,
     tableName: "group_events",
     modelName: "group_events",
+  }
+);
+
+const Group = sequelize.define(
+  "Group",
+  {
+    id: {
+      type: UUID,
+      primaryKey: true,
+      defaultValue: UUIDV4,
+    },
+    title: {
+      type: STRING,
+      allowNull: false,
+    },
+    image: {
+      type: STRING,
+      allowNull: true,
+    },
+  },
+  {
+    timestamps: false,
+    tableName: "groups",
+    modelName: "groups",
   }
 );
 
@@ -187,10 +192,10 @@ const Comment = sequelize.define(
     },
     user_id: {
       type: UUID,
-      // references: {
-      //   model: "Users",
-      //   key: "id",
-      // },
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
     
     event_id: {
@@ -279,8 +284,8 @@ const Image = sequelize.define(
 User.belongsToMany(Event, { through: InterestedEvent });
 Event.belongsToMany(User, { through: InterestedEvent });
 
-User.belongsToMany(Group, { through: UserGroup, foreignKey: "user_id" });
-Group.belongsToMany(User, { through: UserGroup, foreignKey: "group_id" });
+User.belongsToMany(Group, { through: UserGroup });
+Group.belongsToMany(User, { through: UserGroup });
 
 Group.belongsToMany(Event, { through: GroupEvent });
 Event.belongsToMany(Group, { through: GroupEvent });
@@ -291,9 +296,9 @@ User.hasMany(Comment, { foreignKey: "user_id" });
 Event.hasMany(Comment, { foreignKey: "event_id" });
 Comment.hasMany(Image, { foreignKey: "comment_id" });
 
-// Image.belongsToMany(Comment_images, { through: "id"})
-// Image.belongsToMany(Event_thumbnail, { through: "id"})
-// Image.belongsToMany(Group_thumbnail, { through: "id"})
+//Image.belongsToMany(Comment_images, { through: "id"})
+//Image.belongsToMany(Event_thumbnail, { through: "id"})
+//Image.belongsToMany(Group_thumbnail, { through: "id"})
 
 sequelize
   .sync()
