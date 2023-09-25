@@ -8,5 +8,7 @@ const protect = require("../middlewares/protect");
 
 router.post("/", commentController.createComment);
 router.get("/", commentController.getAllComments);
+router.get("/event/:event_id", commentController.getAllCommentsByEventId);
+router.get("/user/:user_id", commentController.getAllCommentsByUserId);
 
 module.exports = router;

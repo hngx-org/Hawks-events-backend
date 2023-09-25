@@ -6,13 +6,11 @@ const {
   addUserGroup, 
   findMember, 
   removeAmemberFromGroup, 
-  addGroup, 
-  updateGroup, 
-  deleteGroup 
 } = require('../repository/user_groups');
 
 const {User} = require("../models/index");
 const {Group} = require("../models/index");
+const group = require("../repository/group");
 
 class GroupController {
   async createGroup(req, res) {
@@ -135,6 +133,18 @@ class GroupController {
 
       return res.status(200).json({ users });
     } catch (error) {
+      return res.status(500).json({
+        message: "Error retrieving users of the group",
+        error: error.message,
+      });
+    }
+  }
+  async getGroups(req,res){
+    try{
+      const group = await Group.findAll()
+      console.log(group)
+      return res.status(200).json({ group })
+    }catch (error) {
       return res.status(500).json({
         message: "Error retrieving users of the group",
         error: error.message,

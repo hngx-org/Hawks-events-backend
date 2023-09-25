@@ -32,10 +32,49 @@ const getAllComments = async (req, res, next) => {
   }
 };
 
+const getAllCommentsByEventId = async (req, res, next) => {
+  const event_id = req.params.event_id
+  try {
+    const events = await Comment.findAll({
+      where:{
+        event_id:event_id
+      }
+    });
+    
+    // if(!events){
+      // HANDLE SUCH CASES 
+    // }
+    res.status(200).json(events);
+  } catch (err) {
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+  }
+};
+
+
+const getAllCommentsByUserId = async (req, res, next) => {
+  const user_id = req.params.user_id
+  try {
+    const events = await Comment.findAll({
+      where:{
+        user_id:user_id
+      }
+    });
+    
+    // if(!events){
+      // HANDLE SUCH CASES 
+    // }
+    res.status(200).json(events);
+  } catch (err) {
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+  } 
+};
+
 
 module.exports = {
   createComment,
-  getAllComments
+  getAllComments,
+  getAllCommentsByEventId,
+  getAllCommentsByUserId
   //   likeComment,
   //   dislikeComments,
-};
+}

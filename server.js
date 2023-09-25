@@ -6,7 +6,7 @@ const notFound = require("./src/middlewares/not-found");
 const session = require("express-session");
 
 const app = express();
-const { Group } = require("./src/models/index");
+
 
 app.use(cors());
 // these already do the work of bodyParser
@@ -16,14 +16,14 @@ app.use(express.urlencoded({ extended: false }));
 //bring in the routes
 const user = require("./src/routes/user");
 // const auth = require("./src/routes/auth");
-//const group = require("./src/routes/group");
+const group = require("./src/routes/group");
 const events = require("./src/routes/event");
 const comment = require("./src/routes/comments");
 const upload = require("./src/routes/upload");
 
 app.use("/api/users", user);
 app.use("/api/events", events);
-//app.use("/api/group", group);
+app.use("/api/group", group);
 
 app.use("/api/comment", comment);
 app.use("/api/upload", upload);

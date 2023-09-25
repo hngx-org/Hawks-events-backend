@@ -119,10 +119,16 @@ const Group = sequelize.define(
       type: STRING,
       allowNull: false,
     },
-    image: {
-      type: STRING,
-      allowNull: true,
+    creator_id: {
+      type: String,
+
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
+   
+    
   },
   {
     timestamps: false,
@@ -291,6 +297,7 @@ Group.belongsToMany(Event, { through: GroupEvent });
 Event.belongsToMany(Group, { through: GroupEvent });
 
 Event.belongsTo(User, { foreignKey: "creator_id" });
+Group.belongsTo(User, { foreignKey: "creator_id" });
 
 User.hasMany(Comment, { foreignKey: "user_id" });
 Event.hasMany(Comment, { foreignKey: "event_id" });
