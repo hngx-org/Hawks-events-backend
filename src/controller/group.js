@@ -1,34 +1,26 @@
-const { uuid } = require("uuidv4")
+const { addGroup } = require("../repository/group");
+const { MESSAGES } = require("../config/constants");
+const { ServerError } = require("../error/errors");
 
 const { 
+  addUserGroup, 
+  findMember, 
+  removeAmemberFromGroup, 
   addGroup, 
   updateGroup, 
-  deleteGroup, 
-  findGroupById
-} = require("../repository/group");
-
-const { 
-  addAUserToGroup,
-  removeAmemberFromGroup,
-  findAllMembers,
-  findAMember,
-  deleteUserGroup,
+  deleteGroup 
 } = require('../repository/user_groups');
 
-const { findUserById } = require("../repository/user");
-
+const {User} = require("../models/index");
+const {Group} = require("../models/index");
 
 class GroupController {
   async createGroup(req, res) {
     try {
       const { title } = req.body;
-      const id = uuid()
-      await addGroup(id, title);
-      const group = await findGroupById(id)
-      console.log(group.id)
-      await addAUserToGroup(req.user.dataValues.id, id);
-    
-      return res.status(201).json({ message: "New group created", group});
+      const group = await addGroup(title);
+      await addUserGroup(req.user.id, group.id);
+      return res.status(201).json({ message: "New group created", group });
     } catch (error) {
       return res.status(500).json({
         message: "Error creating group",
@@ -41,11 +33,11 @@ class GroupController {
     try {
       const { groupId } = req.params;
       const { title } = req.body;
-      const group = await findGroupById(groupId) 
-      if (!group) {
-        return res.status(400).json({message: "Group not found"})
-      }
       const updatedGroup = await updateGroup(groupId, title);
+
+      if (updatedGroup instanceof Error) {
+        throw updatedGroup; // Propagate the error
+      }
 
       return res
         .status(200)
@@ -58,56 +50,46 @@ class GroupController {
     }
   }
 
-  async deleteGroup (req, res) {
+  async deleteGroup(req, res) {
     try {
-      const { groupId } = req.params
-      // Check if group exist
-      const group = await findGroupById(req.params.groupId)
-      if (!group) {
-        return res.status(400).json({ message: "Group does not exist" });
+      const { groupId } = req.params;
+
+      // Check if the group exists before attempting to delete
+      const existingGroup = await getGroupById(groupId);
+      if (!existingGroup) {
+        return res.status(404).json({ message: "Group not found" });
       }
 
-      // Delete users from group
-      await deleteGroup(groupId)
+      // Check if the user has permission to delete the group (you may implement user authentication and authorization)
+      if (existingGroup.creator_id !== req.user.id) {
+        return res.status(403).json({ message: "Unauthorized" });
+      }
 
-      // Delete group
-      const deletedGroup = await deleteUserGroup(req.user.dataValues.id, groupId);
+      const deletedGroup = await deleteGroup(groupId);
       if (deletedGroup === 1) {
         return res.status(200).json({ message: "Group deleted successfully" });
       } else {
-        return res.status(500).json({ message: "Group not found" });
+        return res.status(500).json({ message: "Error deleting group" });
       }
     } catch (error) {
-       return res.status(500).json({
-          message: "Error deleting group",
-          error: error.message,
-       });
+      return res.status(500).json({
+        message: "Error deleting group",
+        error: error.message,
+      });
     }
- }
+  }
 
   async addUserToGroup(req, res) {
     try {
-      // Check if group exists
-      const group = await findGroupById(req.params.groupId)
-      if (!group) {
-        return res.status(400).json({ message: "Group does not exist" });
-      }
-
-      // Check if user exists
-      const user = await findUserById(req.params.userId)
-      if (!user) {
-        return res.status(400).json({ message: "User does not exist" });
-      }
-
       // Check if user is in the group already
-      const isAMember = await findAMember(req.params.userId, req.params.groupId);
-      if (isAMember === true) {
+      const isAMember = await findMember(req.params.userId, req.params.groupId);
+      if (isAMember) {
         return res.status(400).json({ message: "This user is already a member of this group" });
       }
 
       // Add user to the group
-      const data = await addAUserToGroup(req.params.userId, req.params.groupId);
-      return res.status(201).json({ message: "User added to group", data });
+      await addUserGroup(req.params.userId, req.params.groupId);
+      return res.status(201).json({ message: "User added to group" });
     } catch (error) {
       return res.status(500).json({
         message: "Error adding user to group",
@@ -119,7 +101,7 @@ class GroupController {
   async removeUserFromGroup(req, res) {
     try {
       // Check if user is in the group
-      const isAMember = await findAMember(req.params.userId, req.params.groupId);
+      const isAMember = await findMember(req.params.userId, req.params.groupId);
       if (!isAMember) {
         return res.status(400).json({ message: "User not found in group" });
       }
@@ -138,20 +120,27 @@ class GroupController {
   async getUsersOfGroup(req, res) {
     try {
       const { groupId } = req.params;
-      const members = await findAllMembers(groupId)
-  
-      if (!members) {
-        return res.status(404).json({ message: "Group members not found" });
+
+      // Find the group by its ID and include associated users
+      const group = await Group.findByPk(groupId, {
+        include: User,
+      });
+
+      if (!group) {
+        return res.status(404).json({ message: "Group not found" });
       }
 
-      return res.status(200).json({ members });
+      // Extract the users from the group object
+      const users = group.Users;
+
+      return res.status(200).json({ users });
     } catch (error) {
       return res.status(500).json({
-        message: "Error retrieving group members",
+        message: "Error retrieving users of the group",
         error: error.message,
       });
     }
   }
 }
 
-module.exports = new GroupController;
+module.exports = new GroupController();
