@@ -7,15 +7,12 @@ const session = require("express-session");
 
 const app = express();
 
-
 app.use(cors());
-// these already do the work of bodyParser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //bring in the routes
 const user = require("./src/routes/user");
-// const auth = require("./src/routes/auth");
 const group = require("./src/routes/group");
 const events = require("./src/routes/event");
 const comment = require("./src/routes/comments");
@@ -25,9 +22,12 @@ app.use("/api/users", user);
 app.use("/api/events", events);
 app.use("/api/group", group);
 
-app.use("/api/comment", comment);
-app.use("/api/upload", upload);
+// <<<<<<< Team-F
+// =======
+// app.use("/api/comment", comment);
+// app.use("/api/upload", upload);
 
+// >>>>>>> main
 app.use(errorHandler);
 app.use(notFound);
 
@@ -36,5 +36,10 @@ const server = app.listen(PORT, () => {
 });
 
 process.on("unhandledRejection", (err) => {
-  server.close(() => process.exit(1));
+// <<<<<<< Team-F
+//   console.log(`Error: ${err.message}`);
+// 	server.close(() => process.exit(1));
+// =======
+//   server.close(() => process.exit(1));
+// >>>>>>> main
 });
