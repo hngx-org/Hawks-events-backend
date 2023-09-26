@@ -1,9 +1,16 @@
 const { ServerError, NotFoundError } = require("../error/errors");
 const { CustomError } = require("../error/errors");
-const { MESSAGES } = require("../config/constants");
-const { createJwt } = require("../ultis/jwt");
-const { User } = require("../models/index");
-const { v4: uuidv4 } = require("uuid");
+// <<<<<<< Team-F
+// const {MESSAGES} = require('../config/constants')
+// const {createJwt} = require('../ultis/jwt')
+// const userModel = require('../models/user')
+// const { v4: uuidv4 } = require('uuid');
+// =======
+// const { MESSAGES } = require("../config/constants");
+// const { createJwt } = require("../ultis/jwt");
+// const { User } = require("../models/index");
+// const { v4: uuidv4 } = require("uuid");
+// >>>>>>> main
 
 // const register = async (req, res, next) => {
 //   const requestBody = req.body || {};
@@ -57,32 +64,61 @@ const { v4: uuidv4 } = require("uuid");
 const register = async (req, res, next) => {
   const requestBody = req.body || {};
   const userData = {
+// <<<<<<< Team-F
+//     id: uuidv4(),
+// =======
+// >>>>>>> main
     name: requestBody.name || null,
     email: requestBody.email || null,
     avatar: requestBody.avatar || null,
   };
-  const requiredFields = ["email", "name", "avatar"];
+// <<<<<<< Team-F
+
+//   const requiredFields = [ "id", "email", "name", "avatar" ];
+
+// =======
+//   const requiredFields = ["email", "name", "avatar"];
+// >>>>>>> main
   for (const field of requiredFields) {
     if (!userData[field]) {
       return res.status(400).json({ error: `Missing ${field}` });
     }
   }
   try {
-    // Generate a unique ID (UUID) for the user
-    const id = uuidv4(); // Generate a UUID
-    const [user, created] = await User.findOrCreate({
-      where: { email: userData.email },
-      defaults: {
-        id,
-        name: userData.name,
-        email: userData.email,
-        avatar: userData.avatar,
-      },
-    });
-    if (created) {
-      const token = await createJwt({
-        id,
-        email: userData.email,
+// <<<<<<< Team-F
+//     userModel
+//       .findOrCreate({
+//         where: { id:userData.id, email: userData.email },
+//         defaults: {
+//           id: userData.id,
+//           name: userData.name,
+//           email: userData.email,
+//           avatar: userData.avatar,
+//         },
+//       })
+//       .then(async (data) => {
+//         const token = await createJwt({ id: userData.id, email: userData.email })
+//         res.status(201).json({ statusCode: 201, message: MESSAGES.USER_CREATED, data, token });
+//       })
+//       .catch((error) => {
+//         return next(CustomError(error.message, 500))
+// =======
+//     // Generate a unique ID (UUID) for the user
+//     const id = uuidv4(); // Generate a UUID
+//     const [user, created] = await User.findOrCreate({
+//       where: { email: userData.email },
+//       defaults: {
+//         id,
+//         name: userData.name,
+//         email: userData.email,
+//         avatar: userData.avatar,
+//       },
+//     });
+//     if (created) {
+//       const token = await createJwt({
+//         id,
+//         email: userData.email,
+// >>>>>>> main
       });
       return res.status(201).json({
         statusCode: 201,
@@ -112,5 +148,10 @@ const profile = async (req, res, next) => {
 
 module.exports = {
   register,
-  profile,
-};
+// <<<<<<< Team-F
+//   profile
+// };
+// =======
+//   profile,
+// };
+// >>>>>>> main
