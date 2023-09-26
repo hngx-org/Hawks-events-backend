@@ -27,8 +27,13 @@ const fileFilter = (req, file, callback) => {
   }
 };
 
-const uploadImage = multer({ fileFilter, storage, limits });
+const limits = { fileSize: process.env.MAX_FILE_SIZE || 1024 * 1024 };
 
+// <<<<<<< Team-F
+// const uploadImage = multer({ fileFilter, storage, limits });
+
+// =======
+// >>>>>>> main
 const upload = async (req, res) => {
   try {
     const responses = [];
@@ -43,13 +48,36 @@ const upload = async (req, res) => {
         .json({ error: "Maximum number of files to upload is two" });
     }
 
-    for (const file of req.files) {
-      const { path, buffer } = file;
+// <<<<<<< Team-F
+// 		if (!req.files || req.files.length === 0) {
+// 			return res.status(400).json({ error: "Error: No files uploaded" });
+// 		}
+		
+// 		if (req.files.length > 2)
+// 			return res.status(400).json({ error: "Maximum number of files to uploaded is two" });
 
-      const uploadedfile = await uploadSingleFile(path);
-      responses.push(uploadedfile);
-      fs.unlinkSync(path);
-    }
+// 		const uploadPromises = req.files.map(async file => {
+// 			const { path, buffer } = file;
+		
+// 			try {
+// 				const uploadedfile = await uploadSingleFile(path);
+// 				return uploadedfile;
+// 			} catch (error) {
+// 				console.error(error);
+// 				fs.unlinkSync(path);
+// 			}
+// 		});
+
+// 		responses.push(...await Promise.all(uploadPromises));
+// =======
+//     for (const file of req.files) {
+//       const { path, buffer } = file;
+
+//       const uploadedfile = await uploadSingleFile(path);
+//       responses.push(uploadedfile);
+//       fs.unlinkSync(path);
+//     }
+// >>>>>>> main
 
     return res.status(201).json({
       message: constants.MESSAGES.CREATED,
@@ -62,6 +90,11 @@ const upload = async (req, res) => {
 };
 
 module.exports = {
-  upload,
-  uploadImage,
+// <<<<<<< Team-F
+// 	upload,
+// 	uploadImage,
+// =======
+//   upload,
+//   uploadImage,
+// >>>>>>> main
 };
