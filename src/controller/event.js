@@ -1,7 +1,8 @@
-const {NotFoundError, ClientError } = require("../error/errors");
-const Event = require("../models/events");
 
-/// BAD REQUEST ERROR DOES NOT EXIST! STOP USING IT 
+const { MESSAGES } = require("../config/constants");
+const { ServerError } = require("../error/errors");
+const {Event} = require("../models/index");
+
 
 // HERE IS HOW TO USE THE ERROR 
 
@@ -20,24 +21,31 @@ exports.getAllEvents = async (req, res, next) => {
     // }
     res.status(200).json(events);
   } catch (err) {
-    res.status(500).json({});
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
   }
 };
 
 // Get event details by eventId
 exports.getEventById = async (req, res, next) => {
   const eventId = req.params.eventId;
-
+console.log(eventId)
   try {
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findOne({
+      where: {
+        id: eventId,
+      },
+    });
 
     if (!event) {
-      return res.status(404).json({});
+      return res.status(404).json({message:MESSAGES.NOT_FOUND});
     }
 
     res.status(200).json(event);
   } catch (err) {
-    res.status(500).json({});
+
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+ 
+
   }
 };
 
@@ -52,15 +60,17 @@ exports.updateEvent = async (req, res) => {
     end_date,
     start_time,
     end_time,
-    thumbnail,
   } = req.body;
 
   // Check if the event exists
-  const existingEvent = await Event.findByPk(eventId);
+  const existingEvent = await Event.findOne({
+    where: {
+      id: eventId,
+    },
+  });
 
   if (!existingEvent) {
-    return res.status(404).json({ error: "Event not found" });
-
+    return res.status(404).json({ error: MESSAGES.NOT_FOUND });
   }
 
   // Update event details using Sequelize
@@ -71,46 +81,62 @@ exports.updateEvent = async (req, res) => {
   existingEvent.end_date = end_date;
   existingEvent.start_time = start_time;
   existingEvent.end_time = end_time;
-  existingEvent.thumbnail = thumbnail;
 
   await existingEvent.save();
-  res.status(200).json({ message: "Event updated successfully" });
+  res.status(200).json({ message: MESSAGES.EVENT_UPDATED });
 };
 
 //post events
 
 exports.postEvent = async (req, res, next) => {
   const {
-    thumbnail,
+    creator_id,
     description,
     location,
     title,
-    creator_id,
     start_date,
     end_date,
     start_time,
     end_time,
   } = req.body;
   let eventItem;
-  console.log(description, location, title, creator_id, start_date, end_date);
+
   try {
     eventItem = await Event.create({
-      thumbnail,
       description,
-      title,
       creator_id,
+      title,
       start_date,
       end_date,
       start_time,
       end_time,
       location,
     });
-    if (!eventItem) {
-      throw new BadRequestError("Invalid event data");
-    }
-    res.status(201).json({ statusCode: 201, message: "event created" });
+    console.log(creator_id)
+    res.status(201).json({ statusCode: 201, message: MESSAGES.EVENT_CREATED });
   } catch (err) {
     next(err);
   }
 
+};
+
+//delete event
+exports.deleteEvent = async (req, res, next) => {
+  const eventId = req.params.eventId;
+  try {
+    const event = await Event.findOne({
+      where: {
+        id: eventId,
+      },
+    });
+
+    if (!event) {
+      return res.status(404).json({ error: MESSAGES.NOT_FOUND });
+    }
+
+    await event.destroy();
+    res.status(200).json({ message: MESSAGES.EVENT_DELETED });
+  } catch (err) {
+    throw new ServerError(MESSAGES.INTERNAL_SERVER_ERROR);
+  }
 };

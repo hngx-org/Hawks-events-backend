@@ -3,6 +3,8 @@ const { PORT } = require("./src/config/constants");
 const cors = require("cors");
 const errorHandler = require("./src/middlewares/error-handler");
 const notFound = require("./src/middlewares/not-found");
+const session = require("express-session");
+
 const app = express();
 
 app.use(cors());
@@ -19,9 +21,13 @@ const upload = require("./src/routes/upload");
 app.use("/api/users", user);
 app.use("/api/events", events);
 app.use("/api/group", group);
-app.use('/api/comment', comment);
-app.use("/api/upload", upload);
 
+// <<<<<<< Team-F
+// =======
+// app.use("/api/comment", comment);
+// app.use("/api/upload", upload);
+
+// >>>>>>> main
 app.use(errorHandler);
 app.use(notFound);
 
@@ -30,6 +36,10 @@ const server = app.listen(PORT, () => {
 });
 
 process.on("unhandledRejection", (err) => {
-  console.log(`Error: ${err.message}`);
-	server.close(() => process.exit(1));
+// <<<<<<< Team-F
+//   console.log(`Error: ${err.message}`);
+// 	server.close(() => process.exit(1));
+// =======
+//   server.close(() => process.exit(1));
+// >>>>>>> main
 });
